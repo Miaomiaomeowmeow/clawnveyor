@@ -1,0 +1,32 @@
+{
+  "id": "blank",
+  "label": "空白",
+  "label_en": "Blank",
+  "blurb": "只有一站，自己从头加",
+  "blurb_en": "Just one station; build it up yourself",
+  "sample": true,
+  "title": "克鸟驿站",
+  "title_en": "Clawnveyor",
+  "unit": "件",
+  "unit_en": "items",
+  "stations": [
+    { "id": "dock", "on": true, "name": "收货", "name_en": "Inbox", "en": "INBOX", "desc": "东西从这里进来", "desc_en": "Things come in here" },
+    { "id": "sort", "on": false, "name": "分拣", "name_en": "Sort", "en": "SORTING", "desc": "", "desc_en": "" },
+    { "id": "store", "on": false, "name": "入库", "name_en": "Store", "en": "STORAGE", "desc": "", "desc_en": "" },
+    { "id": "shop", "on": false, "name": "集包", "name_en": "Pack", "en": "CONSOLIDATION", "desc": "", "desc_en": "" },
+    { "id": "make", "on": false, "name": "加工", "name_en": "Process", "en": "PROCESS", "desc": "", "desc_en": "" },
+    { "id": "use", "on": false, "name": "送达", "name_en": "Deliver", "en": "DELIVERY", "desc": "", "desc_en": "" }
+  ],
+  "roles": { "dock": "收货员", "lane": "分拣员", "boss": "馆长", "shop": "集包员", "prep": "加工员", "guard": "门卫", "desk": "取件员", "agent": "项目小克" },
+  "roles_en": { "dock": "Receiver", "lane": "Sorter", "boss": "Curator", "shop": "Packer", "prep": "Maker", "guard": "Guard", "desk": "Courier", "agent": "Project Clawd" },
+  "lanes": ["Sort-1", "Sort-2", "Sort-3"],
+  "sources": [ { "name": "来源 1", "en": "Source 1", "worker": "Inbox-1", "color": "#2F9FD8" } ],
+  "crew": {},
+  "counts": { "unloading": 0, "waiting": 0, "done": 0, "today_in": 0, "today_done": 0, "today_returned": 0, "stored": 0 },
+  "outputs": [ { "name": "结果", "name_en": "Results", "main": true, "color": "#E03C31", "note": "", "count": 0 } ],
+  "carts": [],
+  "shelf": [],
+  "projects": [],
+  "links": { "make": { "name": "", "url": "" }, "use": { "name": "", "url": "" } },
+  "log": []
+}

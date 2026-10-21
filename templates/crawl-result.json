@@ -1,0 +1,49 @@
+{
+  "id": "crawl-result",
+  "label": "AI 抓资料 → 结果",
+  "label_en": "AI research → results",
+  "blurb": "AI 抓取 → 分拣 → 汇总；两个出口：普通结果直接拿走，好的送去整理成技能",
+  "blurb_en": "AI fetch → sort → summary; two exits: plain results, and ones worth turning into skills",
+  "sample": true,
+  "title": "克鸟驿站",
+  "title_en": "Clawnveyor",
+  "unit": "条",
+  "unit_en": "items",
+  "stations": [
+    { "id": "dock", "on": true, "name": "抓取", "name_en": "Fetch", "en": "FETCH", "desc": "AI 去各个网站把资料抓回来", "desc_en": "AI fetches material from each site" },
+    { "id": "sort", "on": true, "name": "分拣", "name_en": "Sort", "en": "SORTING", "desc": "一条条看：普通结果 / 能做成技能 / 拿去汇总", "desc_en": "Each item: plain result / skill-worthy / to the summary" },
+    { "id": "store", "on": true, "name": "汇总", "name_en": "Summary", "en": "SUMMARY", "desc": "要汇总的放进汇总库，馆长整理成一份报告", "desc_en": "Items go to the summary library; the curator writes a report" },
+    { "id": "shop", "on": false, "name": "集包", "name_en": "Pack", "en": "CONSOLIDATION", "desc": "按类别攒够一车", "desc_en": "Fill one cart per topic" },
+    { "id": "make", "on": false, "name": "加工", "name_en": "Process", "en": "PROCESS", "desc": "一车整理成一个技能", "desc_en": "One cart becomes one skill" },
+    { "id": "use", "on": false, "name": "送达", "name_en": "Deliver", "en": "DELIVERY", "desc": "送到用的地方", "desc_en": "Deliver where it is used" }
+  ],
+  "roles": { "dock": "抓取员", "lane": "分拣员", "boss": "馆长", "shop": "集包员", "prep": "加工员", "guard": "门卫", "desk": "取件员", "agent": "项目小克" },
+  "roles_en": { "dock": "Fetcher", "lane": "Sorter", "boss": "Curator", "shop": "Packer", "prep": "Maker", "guard": "Guard", "desk": "Courier", "agent": "Project Clawd" },
+  "lanes": ["Sort-1", "Sort-2", "Sort-3"],
+  "sources": [
+    { "name": "搜索", "en": "Search", "worker": "Fetch-1", "color": "#2F9FD8" },
+    { "name": "新闻", "en": "News", "worker": "Fetch-2", "color": "#E2412B" },
+    { "name": "论文", "en": "Papers", "worker": "Fetch-3", "color": "#4E7D2F" },
+    { "name": "社区", "en": "Community", "worker": "Fetch-4", "color": "#5865F2" }
+  ],
+  "crew": {
+    "Fetch-1": { "text": "在搜「本地大模型」", "text_en": "Searching “local LLM”", "time": "09:12", "active": true },
+    "Fetch-3": { "text": "在读第 3 篇论文", "text_en": "Reading paper #3", "time": "09:05", "active": true },
+    "Sort-1": { "text": "在看 search-0021", "text_en": "Looking at search-0021", "time": "09:14", "active": true }
+  },
+  "counts": { "unloading": 1, "waiting": 9, "done": 22, "today_in": 31, "today_done": 22, "today_returned": 3, "stored": 86 },
+  "outputs": [
+    { "name": "汇总库", "name_en": "Summary", "main": true, "color": "#E03C31", "note": "要写进报告的", "note_en": "Goes into the report", "count": 86 },
+    { "name": "能做成技能", "name_en": "Skill-worthy", "process": true, "color": "#8A5CF6", "note": "好东西，以后整理成技能", "note_en": "Good stuff, turn into skills later", "count": 12 },
+    { "name": "普通结果", "name_en": "Plain results", "process": false, "color": "#2E9E6A", "note": "看过就行，直接拿走", "note_en": "Read once, take away", "count": 54 }
+  ],
+  "carts": [],
+  "shelf": [],
+  "projects": [],
+  "links": { "make": { "name": "", "url": "" }, "use": { "name": "", "url": "" } },
+  "log": [
+    { "d": "2026-10-18", "t": "09:14", "who": "Sort-1", "what": "search-0020 → 普通结果", "what_en": "search-0020 → Plain results" },
+    { "d": "2026-10-18", "t": "09:12", "who": "Fetch-1", "what": "寄出 search-0021", "what_en": "Sent search-0021" },
+    { "d": "2026-10-18", "t": "09:05", "who": "Fetch-3", "what": "寄出 paper-0007", "what_en": "Sent paper-0007" }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "id": "data-pipeline",
+  "label": "数据管道（ETL）",
+  "label_en": "Data pipeline (ETL)",
+  "blurb": "各个数据源抽数 → 清洗校验（坏数据退回）→ 入仓 → 按主题汇总 → 建模 → 输出到报表和应用",
+  "blurb_en": "Extract from each source → validate (bad rows go back) → warehouse → aggregate by topic → model → serve dashboards and apps",
+  "sample": true,
+  "title": "克鸟数据站",
+  "title_en": "Clawnveyor Data",
+  "unit": "批",
+  "unit_en": "batches",
+  "stations": [
+    { "id": "dock", "on": true, "name": "抽取", "name_en": "Extract", "en": "EXTRACT", "desc": "每个数据源一辆车，定时把新数据拉进来", "desc_en": "One truck per data source; new data comes in on schedule" },
+    { "id": "sort", "on": true, "name": "清洗", "name_en": "Validate", "en": "VALIDATE", "desc": "三条线并排检查格式、去重，坏数据退回", "desc_en": "Three lanes check format and dedupe; bad rows go back" },
+    { "id": "store", "on": true, "name": "入仓", "name_en": "Warehouse", "en": "WAREHOUSE", "desc": "干净的数据存进数据仓库", "desc_en": "Clean data lands in the warehouse" },
+    { "id": "shop", "on": true, "name": "汇总", "name_en": "Aggregate", "en": "AGGREGATE", "desc": "按主题攒一车，够一天的量就汇总", "desc_en": "One cart per topic; a full day of data gets aggregated" },
+    { "id": "make", "on": true, "name": "建模", "name_en": "Model", "en": "MODEL", "desc": "汇总好的跑模型，算指标和特征，放上货架", "desc_en": "Aggregates become metrics and features on the shelf" },
+    { "id": "use", "on": true, "name": "输出", "name_en": "Serve", "en": "SERVE", "desc": "送到报表、推荐、告警这些地方", "desc_en": "Delivered to dashboards, recommendations and alerts" }
+  ],
+  "roles": { "dock": "抽取任务", "lane": "校验机", "boss": "调度员", "shop": "汇总机", "prep": "建模机", "guard": "门卫", "desk": "取件员", "agent": "下游应用" },
+  "roles_en": { "dock": "Extractor", "lane": "Validator", "boss": "Scheduler", "shop": "Aggregator", "prep": "Modeler", "guard": "Guard", "desk": "Courier", "agent": "Consumer" },
+  "lanes": ["check-1", "check-2", "check-3"],
+  "boss": "scheduler",
+  "sources": [
+    { "name": "订单库", "en": "Orders DB", "worker": "ext-orders", "color": "#E2412B" },
+    { "name": "埋点日志", "en": "Event logs", "worker": "ext-events", "color": "#2F9FD8" },
+    { "name": "第三方接口", "en": "Partner API", "worker": "ext-api", "color": "#D4A017" },
+    { "name": "表格上传", "en": "CSV uploads", "worker": "ext-csv", "color": "#4E7D2F" }
+  ],
+  "crew": {
+    "ext-orders": { "text": "拉取 10:00–11:00 的订单", "text_en": "Pulling orders 10:00–11:00", "time": "11:05", "active": true },
+    "ext-events": { "text": "读取日志分片 37/64", "text_en": "Reading log shard 37/64", "time": "11:04", "active": true },
+    "check-1": { "text": "去重：orders-1100", "text_en": "Dedupe: orders-1100", "time": "11:06", "active": true },
+    "check-3": { "text": "校验字段：events-37", "text_en": "Schema check: events-37", "time": "11:06", "active": true },
+    "model-1": { "text": "重算日活和留存", "text_en": "Recomputing DAU and retention", "time": "10:50", "active": true, "role": "prep" }
+  },
+  "counts": { "unloading": 2, "waiting": 11, "done": 40, "today_in": 52, "today_done": 40, "today_returned": 2, "stored": 1840 },
+  "outputs": [
+    { "name": "数据仓库", "name_en": "Warehouse", "main": true, "color": "#E03C31", "note": "清洗好的明细数据", "note_en": "Clean detail data", "count": 1840 },
+    { "name": "实时流", "name_en": "Streaming", "process": true, "color": "#8A5CF6", "note": "要秒级更新的，也会进汇总", "note_en": "Needs second-level updates; also aggregated", "count": 64 },
+    { "name": "冷存档", "name_en": "Cold archive", "process": false, "color": "#6B6A63", "note": "只存不用，留着备查", "note_en": "Stored, not used; kept for audits", "count": 230 }
+  ],
+  "carts": [
+    { "name": "交易", "name_en": "Sales", "color": "#E2412B", "need": 24, "have": 24 },
+    { "name": "用户行为", "name_en": "Behavior", "color": "#2F9FD8", "need": 24, "have": 17 },
+    { "name": "库存", "name_en": "Inventory", "color": "#4E7D2F", "need": 24, "have": 9 }
+  ],
+  "shelf": [
+    { "name": "核心指标", "name_en": "Core metrics", "mine": 8, "all": 10 },
+    { "name": "用户特征", "name_en": "User features", "mine": 6, "all": 6 },
+    { "name": "预测模型", "name_en": "Forecasts", "mine": 2, "all": 3 }
+  ],
+  "projects": ["经营报表", "推荐系统", "库存预警", "财务对账"],
+  "projects_en": ["Business dashboard", "Recommendations", "Stock alerts", "Finance reconciliation"],
+  "links": { "make": { "name": "", "url": "" }, "use": { "name": "", "url": "" } },
+  "log": [
+    { "d": "2026-10-19", "t": "11:06", "who": "check-2", "what": "csv-0412 字段缺失 → 退回", "what_en": "csv-0412 missing fields → sent back" },
+    { "d": "2026-10-19", "t": "11:05", "who": "ext-orders", "what": "订单 10:00–11:00 送进来了", "what_en": "Orders 10:00–11:00 arrived" },
+    { "d": "2026-10-19", "t": "10:50", "who": "model-1", "what": "「交易」这一车汇总好了", "what_en": "The Sales cart is aggregated" }
+  ]
+}
