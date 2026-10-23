@@ -42,6 +42,18 @@ def shot(tab, path, full=False):
         p.update(captureBeyondViewport=True, clip={'x': 0, 'y': 0, 'width': w, 'height': h, 'scale': 1})
     open(path, 'wb').write(base64.b64decode(tab.call('Page.captureScreenshot', **p)['data']))
 
+def close_edge(proc, prof):
+    # 用完把临时浏览器关干净、临时文件夹删掉。以前只关 Edge 主进程，子进程还占着文件，删除悄悄失败，
+    # 临时文件夹里攒了 400 多个 edge-*（2026-10-22 查到）。现在：整棵进程树一起关 → 等它退出 → 删不掉就隔半秒再试
+    subprocess.run(['taskkill', '/PID', str(proc.pid), '/T', '/F'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    try: proc.wait(5)
+    except Exception: pass
+    for _ in range(20):
+        shutil.rmtree(prof, ignore_errors=True)
+        if not os.path.exists(prof): return
+        time.sleep(.5)
+    print('临时浏览器文件夹没删掉（还被占着）：' + prof)
+
 def main(a):
     page = os.path.abspath(a[0] if a else os.path.join(HERE, 'out', 'clawnveyor.html')); stops = a[1:] or ['all']
     url = pathlib.Path(page).as_uri(); os.makedirs(OUT, exist_ok=True)
@@ -90,10 +102,7 @@ def main(a):
             tab.ws.close()
         print('\n'.join(report)); print('截图在', OUT)
     finally:
-        proc.terminate()
-        try: proc.wait(5)
-        except Exception: proc.kill()
-        shutil.rmtree(prof, ignore_errors=True)
+        close_edge(proc, prof)
 
 if __name__ == '__main__':
     sys.stdout.reconfigure(encoding='utf-8')
