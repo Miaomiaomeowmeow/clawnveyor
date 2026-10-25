@@ -4,14 +4,16 @@
 
 [English](README.md) · [在线看看](https://miaomiaomeowmeow.github.io/clawnveyor/)（示例数据）
 
-> **作者在找工作！** 有工作机会请在 [LinkedIn 领英](https://www.linkedin.com/in/miaomiao-yang-331901383) 联系我 · 小红书 @羊猫猫不是猫 · [更多联系方式](#联系作者)
+> **作者在找工作！** 有工作机会请看 [我的网站](https://miaomiaoyang.netlify.app) 或在 [LinkedIn 领英](https://www.linkedin.com/in/miaomiao-yang-331901383) 联系我 · 小红书 @羊猫猫不是猫 · [更多联系方式](#联系作者)
 
 ![全景：6 站都开着](docs/screenshots/overview.png)
 
 ## 有什么
 
 - **6 站，位置固定**：揽收 → 分拣 → 入库 → 集包 → 加工 → 送达。站名可以改成你自己的流程：收集资料、AI 抓东西、写稿发稿……只要是一步一步往下走的都行。
-- **不用的站不收起来**：原地变灰、拉一圈黄黑警戒带、站牌上盖「暂停」章。里面没人、东西不动，传送带上的箱子走到它的地界就不见了。
+- **最后一定是收获**：06 永远是终点，像工厂游戏里的收货中心，东西不会停在半路。
+- **不用的站不收起来**：原地变灰、拉一圈黄黑警戒带、站牌上盖「暂停」章。里面没人、机器停，传送带和车照样把东西直接送过去，最后都到 06。
+- **终点 06 有两种样子**：*简洁版*是快递签收柜，一格一个项目，包裹放进去就是签收了（默认）；*终未地版*是一个小小的项目基地加中枢电站，和作者的另一个开源项目「今日小克终未地」（[Clawdfield](https://github.com/Miaomiaomeowmeow)）联动。那是一个项目工作台：每个项目一只小克员工，记待办、收好作品，还能配一只桌面宠物。在 控制台 → 站点 里切换，或者在 `data/flow.json` 写 `"use_style": "base"`。
 - **6 套模板，都带示例数据**：资料收集 → 技能、AI 抓资料 → 结果、内容生产（选题 → 写稿 → 审核 → 发布）、CI/CD（收代码 → 测试 → 制品库 → 攒版本 → 部署 → 上线）、数据管道（抽取 → 清洗 → 入仓 → 汇总 → 建模 → 输出）、空白。第一次打开会先请你挑一套。
 - **东西都能点**：卡车、集包车、货架，点了弹一张小卡写着现在的数。哪里要你处理，就冒一个橙色的 `!`。
 - 中文 / 英文、小克换装台、几套场景配色。
@@ -19,6 +21,10 @@
 | 两站暂停 | 站点开关 | 手机上的英文版 |
 |---|---|---|
 | ![内容生产模板，两站暂停](docs/screenshots/paused-stations.png) | ![控制台的站点那一块](docs/screenshots/stations-panel.png) | ![手机上看英文版](docs/screenshots/phone-zoom.png) |
+
+| 终点：简洁版快递签收柜（默认） | 终点：终未地版项目基地 |
+|---|---|
+| ![06 是快递签收柜](docs/screenshots/finish-locker.png) | ![06 是终未地版：项目基地加中枢电站](docs/screenshots/finish-clawdfield.png) |
 
 机器跑的流程也能套进这 6 站：
 
@@ -56,7 +62,7 @@ python tools/build.py --stress
 
 把每一排都塞到超过上限，看 MORE 台子摆得对不对（生成 `out/stress.html`）。
 
-**开 / 关某一站**：网页里 控制台 → 站点，点一下再点「保存并刷新」（记在这个浏览器里）。想一直关着，就在 `data/flow.json` 里把那一站写成 `"on": false`。
+**开 / 关某一站**：网页里 控制台 → 站点，点一下再点「保存并刷新」（记在这个浏览器里）。想一直关着，就在 `data/flow.json` 里把那一站写成 `"on": false`。06 是终点，一直开着。
 
 ## 让机器自己报数
 
@@ -147,7 +153,7 @@ GitHub Actions 每次都在一台新机器上跑，所以看板上是这一次�
 - LinkedIn 领英：[Miaomiao Yang](https://www.linkedin.com/in/miaomiao-yang-331901383)（新作品也会发在这里，欢迎关注）
 - 小红书：@羊猫猫不是猫
 - GitHub：[Miaomiaomeowmeow](https://github.com/Miaomiaomeowmeow)（作者的其他作品）
-- 个人网站（简历 + 更多好玩的作品）：还在做，做好了放这里；先关注领英
+- 个人网站（简历 + 更多好玩的作品）：[miaomiaoyang.netlify.app](https://miaomiaoyang.netlify.app)，邮箱也在上面
 
 网页里也能找到：点喵喵坐的粉色小车。
 

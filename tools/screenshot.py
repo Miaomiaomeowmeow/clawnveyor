@@ -82,6 +82,8 @@ def main(a):
                     tab.js(f"localStorage.setItem('clawnveyor-template', '{st[4:]}'); localStorage.removeItem('clawnveyor-stations'); location.reload()"); tab.drain(7)
                 elif st.startswith('st-'):   # st-123 = 只开第 1、2、3 站（存在这台设备上，再重新打开）
                     tab.js(f"localStorage.setItem('clawnveyor-stations', '{','.join(st[3:])}'); location.reload()"); tab.drain(7)
+                elif st in ('use-base', 'use-locker'):   # 06 终点换成 终未地版 / 简洁版（存在这台设备上，再重新打开）
+                    tab.js(f"localStorage.setItem('clawnveyor-use-style', '{st[4:]}'); location.reload()"); tab.drain(7)
                 elif st in ('en', 'zh'):   # 切语言（记在这台设备上）再重新打开
                     tab.js(f"localStorage.setItem('clawnveyor-lang', '{st}'); location.reload()"); tab.drain(7)
                 elif st.startswith('look_'):   # look_x_z_放大[_喵喵时间] = 飞到 (x, z) 放大看细节，例：look_6.6_1_7

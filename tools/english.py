@@ -220,8 +220,19 @@ CODE = [
     ("'爱下厨、会把原料做成成品的加工员', guard: '稳重可靠的工程师', desk: '有点艺术气的取件员', agent: '又酷又实用的项目干员'", "'a maker who loves turning raw stuff into finished things', guard: 'a steady, reliable engineer', desk: 'a slightly artsy collector', agent: 'a cool, practical project operator'"),
     ("`${SI.shop.name}：${fullN} 车满了`", "`${SI.shop.name}: ${fullN} carts full`"),
     ("'退回区  处理不了的件'", "'RETURNS · COULD NOT PROCESS'"), ("['处理不了的件退回这里', .3]", "['Items that could not be processed', .3]"),
-    ("'喵喵 = 作者 Miaomiao。作者在找工作！有机会欢迎在领英联系'", "'Miaomiao is the author, who is looking for a job! Say hi on LinkedIn'"), ("'联系作者 · 领英 ↗'", "'Contact the author · LinkedIn ↗'"),
+    ("'喵喵 = 作者 Miaomiao。作者在找工作！简历和作品都在作者的网站上'", "'Miaomiao is the author, who is looking for a job! Résumé and more work are on the website'"), ("'也可以在领英找到：Miaomiao Yang · 小红书 @羊猫猫不是猫'", "'Also on LinkedIn: Miaomiao Yang · Xiaohongshu @羊猫猫不是猫'"), ("'作者的网站 ↗'", "'Author website ↗'"),
     ("'Miaomiao 原创 · Clawnveyor 克鸟驿站'", "'Original work by Miaomiao · Clawnveyor'"),
+    ("<span>关掉的站原地变灰、东西直接路过</span>", "<span>Switched-off stations grey out; things pass straight through</span>"),
+    (">点一站开 / 关，再点「保存并刷新」。记在这台设备上。06 是终点（收获的地方），一直开着。<", ">Tap a station to switch it on / off, then “Save & reload”. Saved on this device. 06 is the finish line, where the harvest arrives, so it always stays on.<"),
+    ("<span>06 终点的样子</span><span>东西最后送到哪</span>", "<span>What 06 looks like</span><span>Where things end up</span>"),
+    ("fin ? '终点' : on ? '开着' : '暂停'", "fin ? 'finish' : on ? 'on' : 'paused'"),
+    ("['包裹送进快递柜，一格一个项目 = 签收']", "['Parcels go into the locker, one cell per project = signed']"),
+    ("['locker', '简洁版：快递签收柜', '包裹送进快递柜，一格一个项目 = 签收。只用驿站就选这个']", "['locker', 'Simple: parcel lockers', 'Parcels go into a locker, one cell per project. Pick this if you only use Clawnveyor']"),
+    ("['base', '终未地版：项目基地 + 中枢电站', '和作者的另一个开源项目「今日小克终未地」联动']", "['base', 'Clawdfield: project base + power hub', 'Links to the author’s other open-source project, Clawdfield']"),
+    ("k === USE_STYLE ? '在用' : '换这个'", "k === USE_STYLE ? 'in use' : 'use this'"),
+    ("`<div class=\"note\">「今日小克终未地」（Clawdfield）是作者的另一个开源项目：一个项目工作台，每个项目一只小克员工，记待办、收好作品、看大家在干嘛，还能配一只桌面宠物。打开终未地版，驿站送达的东西就进到每个项目小克的手里。会发在 github.com/Miaomiaomeowmeow。</div>`", "`<div class=\"note\">Clawdfield is the author’s other open-source project: a project workbench where every project has a Clawd employee. It keeps to-dos, saves finished work, shows who is doing what, and comes with a desktop pet. With the Clawdfield look, whatever Clawnveyor delivers goes straight to each project’s Clawd. Coming to github.com/Miaomiaomeowmeow.</div>`"),
+    ("'做好的东西从旁边的货架送进快递柜，一格一个项目 = 签收'", "'Finished goods go from the shelf next door into the locker, one cell per project = signed'"),
+    ("'做好的东西从旁边的货架送进快递柜，一格一个项目'", "'Finished goods go from the shelf next door into the locker, one cell per project'"),
 ]
 def code(html):
     for zh, en in sorted(CODE, key=lambda p: -len(p[0])):

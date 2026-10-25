@@ -4,14 +4,16 @@
 
 [中文说明](README.zh-CN.md) · [Live demo](https://miaomiaomeowmeow.github.io/clawnveyor/) (sample data)
 
-> **The author is looking for a job!** If you have an opportunity, reach out on [LinkedIn](https://www.linkedin.com/in/miaomiao-yang-331901383) · Xiaohongshu (RedNote) @羊猫猫不是猫 · [more](#contact)
+> **The author is looking for a job!** If you have an opportunity, see [my website](https://miaomiaoyang.netlify.app) or reach out on [LinkedIn](https://www.linkedin.com/in/miaomiao-yang-331901383) · Xiaohongshu (RedNote) @羊猫猫不是猫 · [more](#contact)
 
 ![Overview: six stations, all running](docs/screenshots/overview.png)
 
 ## What you get
 
 - **Six stations in fixed spots**: Pickup → Sort → Store → Pack → Process → Deliver. Rename them to fit your own flow: research notes, AI scraping, writing and publishing, anything that moves step by step.
-- **Stations you don't use stay put.** They go grey, get yellow-black caution tape and a PAUSED stamp on their sign. Nobody works there, nothing moves, and boxes on the belt disappear when they reach its border.
+- **Every flow ends with a harvest.** Station 06 is always the finish line, like the hub in a factory game, so nothing stops halfway down the road.
+- **Stations you don't use stay put.** They go grey, get yellow-black caution tape and a PAUSED stamp on their sign. Nobody works there and the machines stop; belts and trucks carry things straight through to 06.
+- **Two looks for the finish (06)**: *Simple*, a parcel locker where each project signs for its parcels (default); or *Clawdfield*, a little project base with a power hub, which links to my other open-source project [Clawdfield](https://github.com/Miaomiaomeowmeow): a project workbench where every project has a Clawd employee that keeps to-dos and finished work, plus a desktop pet. Switch in Console → Stations, or set `"use_style": "base"` in `data/flow.json`.
 - **Six templates with sample data**: Collect → Skills, AI research → Results, Content (ideas → draft → review → publish), CI/CD (code → tests → artifacts → release → deploy → live), Data pipeline (extract → validate → warehouse → aggregate → model → serve), Blank. The first time you open the page it asks you to pick one.
 - **Click anything** (a truck, a cart, a shelf) for a card with its numbers. Orange `!` bubbles show where something needs you.
 - Chinese / English, a wardrobe for the Clawds, a few scene color themes.
@@ -19,6 +21,10 @@
 | Two stations paused | Station switches | English, on a phone |
 |---|---|---|
 | ![Content template with two paused stations](docs/screenshots/paused-stations.png) | ![Console, stations panel](docs/screenshots/stations-panel.png) | ![English version on a phone](docs/screenshots/phone-zoom.png) |
+
+| Finish: simple parcel locker (default) | Finish: Clawdfield project base |
+|---|---|
+| ![Station 06 as a parcel locker](docs/screenshots/finish-locker.png) | ![Station 06 as the Clawdfield project base with a power hub](docs/screenshots/finish-clawdfield.png) |
 
 Machine workflows fit the same six stations:
 
@@ -56,7 +62,7 @@ python tools/build.py --stress
 
 fills every row past its limit to check the MORE stands (`out/stress.html`).
 
-**Turn stations on / off**: in the page, Console → Stations, tap and "Save & reload" (saved in this browser). To make it stick for everyone, set `"on": false` for that station in `data/flow.json`.
+**Turn stations on / off**: in the page, Console → Stations, tap and "Save & reload" (saved in this browser). To make it stick for everyone, set `"on": false` for that station in `data/flow.json`. 06 is the finish line and always stays on.
 
 ## Let your scripts report numbers
 
@@ -147,7 +153,7 @@ Each Actions run starts on a fresh machine, so this board shows that one run. Jo
 - LinkedIn: [Miaomiao Yang](https://www.linkedin.com/in/miaomiao-yang-331901383) (new projects get posted there too)
 - Xiaohongshu (RedNote): @羊猫猫不是猫
 - GitHub: [Miaomiaomeowmeow](https://github.com/Miaomiaomeowmeow) (my other projects)
-- Personal site (résumé + more playful projects): coming soon; LinkedIn for now
+- Personal site (résumé + more playful projects): [miaomiaoyang.netlify.app](https://miaomiaoyang.netlify.app); my email is there too
 
 In the page itself: click Miaomiao's little pink cart.
 

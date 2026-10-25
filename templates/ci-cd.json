@@ -10,53 +10,288 @@
   "unit": "个",
   "unit_en": "builds",
   "stations": [
-    { "id": "dock", "on": true, "name": "收代码", "name_en": "Code in", "en": "CODE IN", "desc": "每个仓库一辆车，推送和合并请求开进来", "desc_en": "One truck per repo; pushes and pull requests drive in" },
-    { "id": "sort", "on": true, "name": "测试", "name_en": "Test", "en": "TESTING", "desc": "三台测试机并排跑，没过的退回给提交的人", "desc_en": "Three runners test side by side; failures go back to the author" },
-    { "id": "store", "on": true, "name": "制品库", "name_en": "Artifacts", "en": "ARTIFACTS", "desc": "通过的打包成制品，放进制品库", "desc_en": "Passing builds are packed and stored as artifacts" },
-    { "id": "shop", "on": true, "name": "攒版本", "name_en": "Release", "en": "RELEASE TRAIN", "desc": "按环境攒一车，够数就发版", "desc_en": "One cart per environment; a full cart becomes a release" },
-    { "id": "make", "on": true, "name": "部署", "name_en": "Deploy", "en": "DEPLOY", "desc": "满车开过来：灰度、上架，部署好的版本放上货架", "desc_en": "Full carts roll out; deployed versions go on the shelf" },
-    { "id": "use", "on": true, "name": "上线", "name_en": "Live", "en": "LIVE", "desc": "新版本送到每个服务手里", "desc_en": "New versions reach every service" }
+    {
+      "id": "dock",
+      "on": true,
+      "name": "收代码",
+      "name_en": "Code in",
+      "en": "CODE IN",
+      "desc": "每个仓库一辆车，推送和合并请求开进来",
+      "desc_en": "One truck per repo; pushes and pull requests drive in"
+    },
+    {
+      "id": "sort",
+      "on": true,
+      "name": "测试",
+      "name_en": "Test",
+      "en": "TESTING",
+      "desc": "三台测试机并排跑，没过的退回给提交的人",
+      "desc_en": "Three runners test side by side; failures go back to the author"
+    },
+    {
+      "id": "store",
+      "on": true,
+      "name": "制品库",
+      "name_en": "Artifacts",
+      "en": "ARTIFACTS",
+      "desc": "通过的打包成制品，放进制品库",
+      "desc_en": "Passing builds are packed and stored as artifacts"
+    },
+    {
+      "id": "shop",
+      "on": true,
+      "name": "攒版本",
+      "name_en": "Release",
+      "en": "RELEASE TRAIN",
+      "desc": "按环境攒一车，够数就发版",
+      "desc_en": "One cart per environment; a full cart becomes a release"
+    },
+    {
+      "id": "make",
+      "on": true,
+      "name": "部署",
+      "name_en": "Deploy",
+      "en": "DEPLOY",
+      "desc": "满车开过来：灰度、上架，部署好的版本放上货架",
+      "desc_en": "Full carts roll out; deployed versions go on the shelf"
+    },
+    {
+      "id": "use",
+      "on": true,
+      "name": "上线",
+      "name_en": "Live",
+      "en": "LIVE",
+      "desc": "新版本送到每个服务手里",
+      "desc_en": "New versions reach every service"
+    }
   ],
-  "roles": { "dock": "拉取机器人", "lane": "测试机", "boss": "发版官", "shop": "打包机", "prep": "部署机", "guard": "门卫", "desk": "取件员", "agent": "服务" },
-  "roles_en": { "dock": "Puller", "lane": "Runner", "boss": "Release manager", "shop": "Packer", "prep": "Deployer", "guard": "Guard", "desk": "Courier", "agent": "Service" },
-  "lanes": ["runner-1", "runner-2", "runner-3"],
+  "roles": {
+    "dock": "拉取机器人",
+    "lane": "测试机",
+    "boss": "发版官",
+    "shop": "打包机",
+    "prep": "部署机",
+    "guard": "门卫",
+    "desk": "取件员",
+    "agent": "服务"
+  },
+  "roles_en": {
+    "dock": "Puller",
+    "lane": "Runner",
+    "boss": "Release manager",
+    "shop": "Packer",
+    "prep": "Deployer",
+    "guard": "Guard",
+    "desk": "Courier",
+    "agent": "Service"
+  },
+  "lanes": [
+    "runner-1",
+    "runner-2",
+    "runner-3"
+  ],
   "boss": "release-bot",
   "sources": [
-    { "name": "前端", "en": "Web", "worker": "pull-web", "color": "#2F9FD8", "steps": ["收到推送", "拉代码", "装依赖"], "steps_en": ["Push received", "Checkout", "Install deps"] },
-    { "name": "后端", "en": "API", "worker": "pull-api", "color": "#E2412B" },
-    { "name": "手机 App", "en": "Mobile", "worker": "pull-app", "color": "#8A5CF6" },
-    { "name": "基础设施", "en": "Infra", "worker": "pull-infra", "color": "#4E7D2F" }
+    {
+      "name": "前端",
+      "en": "Web",
+      "worker": "pull-web",
+      "color": "#2F9FD8",
+      "steps": [
+        "收到推送",
+        "拉代码",
+        "装依赖"
+      ],
+      "steps_en": [
+        "Push received",
+        "Checkout",
+        "Install deps"
+      ]
+    },
+    {
+      "name": "后端",
+      "en": "API",
+      "worker": "pull-api",
+      "color": "#E2412B"
+    },
+    {
+      "name": "手机 App",
+      "en": "Mobile",
+      "worker": "pull-app",
+      "color": "#8A5CF6"
+    },
+    {
+      "name": "基础设施",
+      "en": "Infra",
+      "worker": "pull-infra",
+      "color": "#4E7D2F"
+    }
   ],
   "crew": {
-    "pull-web": { "text": "拉取 main 分支 a1f3c2", "text_en": "Checking out main a1f3c2", "time": "14:02", "active": true },
-    "pull-api": { "text": "合并请求 #482", "text_en": "Pull request #482", "time": "14:01", "active": true },
-    "runner-1": { "text": "单元测试 412/980", "text_en": "Unit tests 412/980", "time": "14:03", "active": true },
-    "runner-2": { "text": "端到端测试：登录页", "text_en": "E2E: login page", "time": "14:03", "active": true },
-    "deploy-1": { "text": "灰度 10% → 生产", "text_en": "Canary 10% → prod", "time": "13:58", "active": true, "role": "prep" }
+    "pull-web": {
+      "text": "拉取 main 分支 a1f3c2",
+      "text_en": "Checking out main a1f3c2",
+      "time": "14:02",
+      "active": true
+    },
+    "pull-api": {
+      "text": "合并请求 #482",
+      "text_en": "Pull request #482",
+      "time": "14:01",
+      "active": true
+    },
+    "runner-1": {
+      "text": "单元测试 412/980",
+      "text_en": "Unit tests 412/980",
+      "time": "14:03",
+      "active": true
+    },
+    "runner-2": {
+      "text": "端到端测试：登录页",
+      "text_en": "E2E: login page",
+      "time": "14:03",
+      "active": true
+    },
+    "deploy-1": {
+      "text": "灰度 10% → 生产",
+      "text_en": "Canary 10% → prod",
+      "time": "13:58",
+      "active": true,
+      "role": "prep"
+    }
   },
-  "counts": { "unloading": 2, "waiting": 7, "done": 19, "today_in": 26, "today_done": 19, "today_returned": 4, "stored": 312 },
+  "counts": {
+    "unloading": 2,
+    "waiting": 7,
+    "done": 19,
+    "today_in": 26,
+    "today_done": 19,
+    "today_returned": 4,
+    "stored": 312
+  },
   "outputs": [
-    { "name": "制品库", "name_en": "Artifacts", "main": true, "color": "#E03C31", "note": "通过测试的构建", "note_en": "Builds that passed", "count": 312 },
-    { "name": "安全复查", "name_en": "Security review", "process": true, "color": "#D4A017", "note": "依赖有告警，复查后再发", "note_en": "Dependency alerts; released after review", "count": 3 },
-    { "name": "预览环境", "name_en": "Preview", "process": false, "color": "#2E9E6A", "note": "每个合并请求一个预览，看完就删", "note_en": "One preview per PR, deleted after review", "count": 11 }
+    {
+      "name": "制品库",
+      "name_en": "Artifacts",
+      "main": true,
+      "color": "#E03C31",
+      "note": "通过测试的构建",
+      "note_en": "Builds that passed",
+      "count": 312
+    },
+    {
+      "name": "安全复查",
+      "name_en": "Security review",
+      "process": true,
+      "color": "#D4A017",
+      "note": "依赖有告警，复查后再发",
+      "note_en": "Dependency alerts; released after review",
+      "count": 3
+    },
+    {
+      "name": "预览环境",
+      "name_en": "Preview",
+      "process": false,
+      "color": "#2E9E6A",
+      "note": "每个合并请求一个预览，看完就删",
+      "note_en": "One preview per PR, deleted after review",
+      "count": 11
+    }
   ],
   "carts": [
-    { "name": "生产", "name_en": "Prod", "color": "#E2412B", "need": 5, "have": 5 },
-    { "name": "预发", "name_en": "Staging", "color": "#2F9FD8", "need": 3, "have": 2 },
-    { "name": "App 商店", "name_en": "App store", "color": "#8A5CF6", "need": 4, "have": 1 }
+    {
+      "name": "生产",
+      "name_en": "Prod",
+      "color": "#E2412B",
+      "need": 5,
+      "have": 5
+    },
+    {
+      "name": "预发",
+      "name_en": "Staging",
+      "color": "#2F9FD8",
+      "need": 3,
+      "have": 2
+    },
+    {
+      "name": "App 商店",
+      "name_en": "App store",
+      "color": "#8A5CF6",
+      "need": 4,
+      "have": 1
+    }
   ],
   "shelf": [
-    { "name": "前端", "name_en": "Web", "mine": 6, "all": 8 },
-    { "name": "后端", "name_en": "API", "mine": 5, "all": 7 },
-    { "name": "App", "name_en": "App", "mine": 3, "all": 4 },
-    { "name": "基础设施", "name_en": "Infra", "mine": 2, "all": 5 }
+    {
+      "name": "前端",
+      "name_en": "Web",
+      "mine": 6,
+      "all": 8
+    },
+    {
+      "name": "后端",
+      "name_en": "API",
+      "mine": 5,
+      "all": 7
+    },
+    {
+      "name": "App",
+      "name_en": "App",
+      "mine": 3,
+      "all": 4
+    },
+    {
+      "name": "基础设施",
+      "name_en": "Infra",
+      "mine": 2,
+      "all": 5
+    }
   ],
-  "projects": ["官网", "支付", "用户中心", "消息推送", "手机 App"],
-  "projects_en": ["Website", "Payments", "Accounts", "Notifications", "Mobile app"],
-  "links": { "make": { "name": "", "url": "" }, "use": { "name": "", "url": "" } },
+  "projects": [
+    "官网",
+    "支付",
+    "用户中心",
+    "消息推送",
+    "手机 App"
+  ],
+  "projects_en": [
+    "Website",
+    "Payments",
+    "Accounts",
+    "Notifications",
+    "Mobile app"
+  ],
+  "links": {
+    "make": {
+      "name": "",
+      "url": ""
+    },
+    "use": {
+      "name": "",
+      "url": ""
+    }
+  },
   "log": [
-    { "d": "2026-10-19", "t": "14:03", "who": "runner-3", "what": "#479 测试没过 → 退回", "what_en": "#479 failed → sent back" },
-    { "d": "2026-10-19", "t": "14:01", "who": "pull-api", "what": "收到合并请求 #482", "what_en": "Got pull request #482" },
-    { "d": "2026-10-19", "t": "13:58", "who": "deploy-1", "what": "生产这一车开始灰度", "what_en": "Prod cart started canary" }
+    {
+      "d": "2026-10-19",
+      "t": "14:03",
+      "who": "runner-3",
+      "what": "#479 测试没过 → 退回",
+      "what_en": "#479 failed → sent back"
+    },
+    {
+      "d": "2026-10-19",
+      "t": "14:01",
+      "who": "pull-api",
+      "what": "收到合并请求 #482",
+      "what_en": "Got pull request #482"
+    },
+    {
+      "d": "2026-10-19",
+      "t": "13:58",
+      "who": "deploy-1",
+      "what": "生产这一车开始灰度",
+      "what_en": "Prod cart started canary"
+    }
   ]
 }

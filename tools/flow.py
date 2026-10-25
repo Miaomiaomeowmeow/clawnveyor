@@ -144,6 +144,7 @@ def c_log(d, a):
 
 def c_station(d, a):
     s = find(d.get('stations', []), a.station, 'station', ('id', 'name', 'name_en', 'en'))
+    if s['id'] == 'use' and a.state == 'off': raise Oops('station use (06) is the finish line and always stays on; turn off the ones before it instead')
     s['on'] = a.state == 'on'
     return f'station {s["id"]} is {a.state}'
 

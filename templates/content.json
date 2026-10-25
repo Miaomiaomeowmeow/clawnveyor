@@ -10,39 +10,204 @@
   "unit": "篇",
   "unit_en": "posts",
   "stations": [
-    { "id": "dock", "on": true, "name": "选题", "name_en": "Ideas", "en": "IDEAS", "desc": "从各个地方收选题", "desc_en": "Collect ideas from everywhere" },
-    { "id": "sort", "on": true, "name": "写稿", "name_en": "Draft", "en": "DRAFTING", "desc": "三位写手一人一条线写稿；写不了的退回", "desc_en": "Three writers, one lane each; unusable ideas go back" },
-    { "id": "store", "on": true, "name": "审核", "name_en": "Review", "en": "REVIEW", "desc": "写好的稿子排队等主编审", "desc_en": "Drafts wait for the editor" },
-    { "id": "shop", "on": false, "name": "排期", "name_en": "Schedule", "en": "SCHEDULE", "desc": "按栏目攒够一期", "desc_en": "Fill one issue per column" },
-    { "id": "make", "on": false, "name": "配图", "name_en": "Visuals", "en": "VISUALS", "desc": "配图、排版", "desc_en": "Images and layout" },
-    { "id": "use", "on": true, "name": "发布", "name_en": "Publish", "en": "PUBLISH", "desc": "审过的稿子送到每个平台", "desc_en": "Approved posts go to each channel" }
+    {
+      "id": "dock",
+      "on": true,
+      "name": "选题",
+      "name_en": "Ideas",
+      "en": "IDEAS",
+      "desc": "从各个地方收选题",
+      "desc_en": "Collect ideas from everywhere"
+    },
+    {
+      "id": "sort",
+      "on": true,
+      "name": "写稿",
+      "name_en": "Draft",
+      "en": "DRAFTING",
+      "desc": "三位写手一人一条线写稿；写不了的退回",
+      "desc_en": "Three writers, one lane each; unusable ideas go back"
+    },
+    {
+      "id": "store",
+      "on": true,
+      "name": "审核",
+      "name_en": "Review",
+      "en": "REVIEW",
+      "desc": "写好的稿子排队等主编审",
+      "desc_en": "Drafts wait for the editor"
+    },
+    {
+      "id": "shop",
+      "on": false,
+      "name": "排期",
+      "name_en": "Schedule",
+      "en": "SCHEDULE",
+      "desc": "按栏目攒够一期",
+      "desc_en": "Fill one issue per column"
+    },
+    {
+      "id": "make",
+      "on": false,
+      "name": "配图",
+      "name_en": "Visuals",
+      "en": "VISUALS",
+      "desc": "配图、排版",
+      "desc_en": "Images and layout"
+    },
+    {
+      "id": "use",
+      "on": true,
+      "name": "发布",
+      "name_en": "Publish",
+      "en": "PUBLISH",
+      "desc": "审过的稿子送到每个平台",
+      "desc_en": "Approved posts go to each channel"
+    }
   ],
-  "roles": { "dock": "选题员", "lane": "写手", "boss": "主编", "shop": "排期员", "prep": "美编", "guard": "门卫", "desk": "发布员", "agent": "平台小克" },
-  "roles_en": { "dock": "Scout", "lane": "Writer", "boss": "Editor", "shop": "Scheduler", "prep": "Designer", "guard": "Guard", "desk": "Publisher", "agent": "Channel Clawd" },
-  "lanes": ["Writer-1", "Writer-2", "Writer-3"],
+  "roles": {
+    "dock": "选题员",
+    "lane": "写手",
+    "boss": "主编",
+    "shop": "排期员",
+    "prep": "美编",
+    "guard": "门卫",
+    "desk": "发布员",
+    "agent": "平台小克"
+  },
+  "roles_en": {
+    "dock": "Scout",
+    "lane": "Writer",
+    "boss": "Editor",
+    "shop": "Scheduler",
+    "prep": "Designer",
+    "guard": "Guard",
+    "desk": "Publisher",
+    "agent": "Channel Clawd"
+  },
+  "lanes": [
+    "Writer-1",
+    "Writer-2",
+    "Writer-3"
+  ],
   "sources": [
-    { "name": "读者留言", "en": "Readers", "worker": "Idea-1", "color": "#E2412B" },
-    { "name": "热点", "en": "Trends", "worker": "Idea-2", "color": "#D4A017" },
-    { "name": "素材库", "en": "Archive", "worker": "Idea-3", "color": "#2F9FD8" }
+    {
+      "name": "读者留言",
+      "en": "Readers",
+      "worker": "Idea-1",
+      "color": "#E2412B"
+    },
+    {
+      "name": "热点",
+      "en": "Trends",
+      "worker": "Idea-2",
+      "color": "#D4A017"
+    },
+    {
+      "name": "素材库",
+      "en": "Archive",
+      "worker": "Idea-3",
+      "color": "#2F9FD8"
+    }
   ],
   "crew": {
-    "Idea-2": { "text": "在看今天的热点", "text_en": "Checking today's trends", "time": "10:20", "active": true },
-    "Writer-1": { "text": "在写「新手怎么入门」", "text_en": "Writing “Getting started”", "time": "10:31", "active": true },
-    "Writer-3": { "text": "在改第二稿", "text_en": "Revising draft 2", "time": "10:02", "active": true }
+    "Idea-2": {
+      "text": "在看今天的热点",
+      "text_en": "Checking today's trends",
+      "time": "10:20",
+      "active": true
+    },
+    "Writer-1": {
+      "text": "在写「新手怎么入门」",
+      "text_en": "Writing “Getting started”",
+      "time": "10:31",
+      "active": true
+    },
+    "Writer-3": {
+      "text": "在改第二稿",
+      "text_en": "Revising draft 2",
+      "time": "10:02",
+      "active": true
+    }
   },
-  "counts": { "unloading": 0, "waiting": 4, "done": 9, "today_in": 7, "today_done": 3, "today_returned": 1, "stored": 14 },
+  "counts": {
+    "unloading": 0,
+    "waiting": 4,
+    "done": 9,
+    "today_in": 7,
+    "today_done": 3,
+    "today_returned": 1,
+    "stored": 14
+  },
   "outputs": [
-    { "name": "待审稿", "name_en": "To review", "main": true, "color": "#E03C31", "note": "写好了等主编看", "note_en": "Waiting for the editor", "count": 14 },
-    { "name": "系列专题", "name_en": "Series", "process": true, "color": "#8A5CF6", "note": "攒着做成一个系列", "note_en": "Saved up for a series", "count": 6 },
-    { "name": "存档", "name_en": "Archive", "process": false, "color": "#2E9E6A", "note": "暂时不发", "note_en": "Not now", "count": 11 }
+    {
+      "name": "待审稿",
+      "name_en": "To review",
+      "main": true,
+      "color": "#E03C31",
+      "note": "写好了等主编看",
+      "note_en": "Waiting for the editor",
+      "count": 14
+    },
+    {
+      "name": "系列专题",
+      "name_en": "Series",
+      "process": true,
+      "color": "#8A5CF6",
+      "note": "攒着做成一个系列",
+      "note_en": "Saved up for a series",
+      "count": 6
+    },
+    {
+      "name": "存档",
+      "name_en": "Archive",
+      "process": false,
+      "color": "#2E9E6A",
+      "note": "暂时不发",
+      "note_en": "Not now",
+      "count": 11
+    }
   ],
   "carts": [],
   "shelf": [],
-  "projects": ["博客", "播客", "视频", "邮件周刊", "社交媒体"],
-  "projects_en": ["Blog", "Podcast", "Video", "Newsletter", "Social"],
-  "links": { "make": { "name": "", "url": "" }, "use": { "name": "", "url": "" } },
+  "projects": [
+    "博客",
+    "播客",
+    "视频",
+    "邮件周刊",
+    "社交媒体"
+  ],
+  "projects_en": [
+    "Blog",
+    "Podcast",
+    "Video",
+    "Newsletter",
+    "Social"
+  ],
+  "links": {
+    "make": {
+      "name": "",
+      "url": ""
+    },
+    "use": {
+      "name": "",
+      "url": ""
+    }
+  },
   "log": [
-    { "d": "2026-10-18", "t": "10:31", "who": "Writer-1", "what": "开始写 idea-0042", "what_en": "Started idea-0042" },
-    { "d": "2026-10-18", "t": "10:20", "who": "Idea-2", "what": "寄出 idea-0043", "what_en": "Sent idea-0043" }
+    {
+      "d": "2026-10-18",
+      "t": "10:31",
+      "who": "Writer-1",
+      "what": "开始写 idea-0042",
+      "what_en": "Started idea-0042"
+    },
+    {
+      "d": "2026-10-18",
+      "t": "10:20",
+      "who": "Idea-2",
+      "what": "寄出 idea-0043",
+      "what_en": "Sent idea-0043"
+    }
   ]
 }

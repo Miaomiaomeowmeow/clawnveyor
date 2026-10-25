@@ -317,7 +317,7 @@ canvas{display:block}
       <div class="pane" data-pane="shop"><div class="sec"><span>04 集包 · 集包车</span><span>装满了就开去加工</span></div><div class="box" id="shopList"></div></div>
       <div class="pane" data-pane="crew"><div class="sec"><span>员工状态</span><span>谁在赶工、谁在摸鱼 · 点一下飞过去</span></div><div class="crew" id="crew"></div></div>
       <div class="pane" data-pane="log"><div class="sec"><span>驿站流水</span><span>最新在上</span></div><div class="log" id="log"></div><div class="note" id="note"></div></div>
-      <div class="pane" data-pane="st"><div class="sec"><span>模板</span><span>一套 = 几站、叫什么、示例数据</span></div><div class="flow stl" id="tplList"></div><div class="sec" style="margin-top:14px"><span>站点开关</span><span>关掉的站原地变灰、挂暂停牌</span></div><div class="flow stl" id="stList"></div><div class="note">点一站开 / 关，再点「保存并刷新」。记在这台设备上；最少留 1 站。</div></div>
+      <div class="pane" data-pane="st"><div class="sec"><span>模板</span><span>一套 = 几站、叫什么、示例数据</span></div><div class="flow stl" id="tplList"></div><div class="sec" style="margin-top:14px"><span>站点开关</span><span>关掉的站原地变灰、东西直接路过</span></div><div class="flow stl" id="stList"></div><div class="note">点一站开 / 关，再点「保存并刷新」。记在这台设备上。06 是终点（收获的地方），一直开着。</div><div class="sec" style="margin-top:14px"><span>06 终点的样子</span><span>东西最后送到哪</span></div><div class="flow stl" id="useList"></div></div>
     </div>
   </aside>
 </div>
@@ -360,6 +360,8 @@ const ST_ON = (() => { let s = null; try { s = localStorage.getItem('clawnveyor-
   const h = /st=([\d,]+)/.exec(location.hash); if (h) s = h[1];
   if (s) { const on = s.split(',').map(Number).filter(n => n >= 1 && n <= ST_ORDER.length).map(n => ST_ORDER[n - 1]); if (on.length) return on; }
   const on = ST_ORDER.filter(id => { const c = D.stations.find(x => x.id === id); return c ? c.on !== false : !D.stations.length; }); return on.length ? on : ST_ORDER.slice(); })();
+if (!ST_ON.includes('use')) ST_ON.push('use');   // 06 是终点：东西最后都要收到这里，不能关（像工厂游戏里固定的收货中心）
+const USE_STYLE = (() => { let v = null; try { v = localStorage.getItem('clawnveyor-use-style'); } catch (e) {} return v === 'base' || v === 'locker' ? v : (CFG.use_style === 'base' ? 'base' : 'locker'); })(), USE_BASE = USE_STYLE === 'base';   // 06 的样子：locker = 简洁版（快递签收柜），base = 项目基地版（和「项目基地」联动）
 const SI = Object.fromEntries(ST_ORDER.map((id, i) => { const c = D.stations.find(x => x.id === id) || {}, d = ST_DEF[id];
   return [id, { id, no: String(i + 1).padStart(2, '0'), name: tx(c, 'name') || (EN ? d[1] : d[0]), en: c.en || d[2], desc: tx(c, 'desc') || (EN ? d[4] : d[3]), on: ST_ON.includes(id) }]; }));
 const zl = id => EN ? SI[id].en : `${SI[id].name}区  ${SI[id].en}`;   // 地上的区名
@@ -1012,21 +1014,21 @@ const SHELFF = capAt(GUIDE0.shelf || [], 12), SHELF = SHELFF.show, caps2 = new T
 }
 // ===== 06 送达区：卸货口 → 货堆 / 无人机 → 中枢电站（中间）+ 一圈供电杆和项目小克 + 签收快递柜 =====
 const RX = -14.4, RZ = -4.2;            // 中枢电站 = 送达区中心（离分拣线远一点）
-const LKX = -9.6, LKZ = -8.2;             // 签收快递柜（送达区东北边的空地，离分拣线远一点）
+const LKX = USE_BASE ? -9.6 : BX, LKZ = USE_BASE ? -8.2 : ZG + 3.7;   // 简洁版：快递柜放在卸货口原来的位置             // 签收快递柜（送达区东北边的空地，离分拣线远一点）
 const OX = BX, OZ = ZG + 3.7;           // 卸货口（货架南头）
 const PROJ = (USE0.names || []).slice(0, 15);
 // 卸货口：白色小仓 + 深色屋顶 + 朝送达区的卷帘门 + 黄色防撞柱
-{ const g = new THREE.Group(); g.position.set(OX, 0, OZ); scene.add(g);
+if (USE_BASE) { const g = new THREE.Group(); g.position.set(OX, 0, OZ); scene.add(g);
   add(new THREE.BoxGeometry(3.0, 2.2, 1.8), M('#ECEEEB', .55), 0, 1.1, 0, g); add(new THREE.BoxGeometry(3.2, .22, 2.0), mat.dark, 0, 2.31, 0, g);
   add(new THREE.BoxGeometry(1.7, 1.6, .06), M('#3B3E40', .6), 0, .8, .92, g); for (let k = 0; k < 6; k++) add(new THREE.BoxGeometry(1.7, .03, .04), M('#55595B', .6), 0, .25 + k * .26, .96, g);
   add(new THREE.BoxGeometry(2.9, .06, .02), new THREE.MeshStandardMaterial({ color: '#FFC93C', emissive: '#FFB020', emissiveIntensity: .8 }), 0, 1.95, .91, g);
   for (const sx of [-1.15, 1.15]) add(new THREE.BoxGeometry(.14, .7, .14), mat.line, sx, .35, 1.25, g); }
 // 货堆：两块托盘上的纸箱 = 还没被搬走的成品
-for (const [dx, dz] of [[-3.3, -.4], [-3.3, 1.1]]) { add(new THREE.BoxGeometry(1.3, .14, 1.1), M('#B0895F', .9), OX + dx, .07, OZ + dz);
+if (USE_BASE) for (const [dx, dz] of [[-3.3, -.4], [-3.3, 1.1]]) { add(new THREE.BoxGeometry(1.3, .14, 1.1), M('#B0895F', .9), OX + dx, .07, OZ + dz);
   for (let k = 0; k < 5; k++) add(CARTON, vcMat, OX + dx - .35 + (k % 2) * .7, .32 + Math.floor(k / 2) * .38, OZ + dz + (k % 3 === 2 ? .2 : -.15)); }
 // 中枢电站（精简缩小版：白色主塔）
 const WH = M('#ECEEEB', .55), CON = M('#C8CBC6', .95), GR = M('#2A2D2F', .5), GLOW = new THREE.MeshStandardMaterial({ color: '#FFC93C', emissive: '#FFB020', emissiveIntensity: .9, roughness: .5 });
-{ const g = new THREE.Group(); g.position.set(RX, 0, RZ); scene.add(g);
+if (USE_BASE) { const g = new THREE.Group(); g.position.set(RX, 0, RZ); scene.add(g);
   const C = (rt, rb, h, m, y, seg = 24) => add(new THREE.CylinderGeometry(rt, rb, h, seg), m, 0, y + h / 2, 0, g);   // y = 底面高度
   C(1.84, 1.92, .1, CON, 0, 8); const hz = add(new THREE.RingGeometry(1.62, 1.78, 8), mat.line, 0, .105, 0, g); hz.rotation.x = -Math.PI / 2; hz.rotation.z = Math.PI / 8;
   C(1.04, 1.12, .68, WH, .1); C(1.055, 1.055, .07, GLOW, .44); C(1.05, 1.05, .1, GR, .78);
@@ -1040,7 +1042,7 @@ const WH = M('#ECEEEB', .55), CON = M('#C8CBC6', .95), GR = M('#2A2D2F', .5), GL
   for (const a of [Math.PI * .25, Math.PI * 1.25]) { const x = Math.cos(a) * 1.42, z = Math.sin(a) * 1.42;   // 两个小储罐
     add(new THREE.CylinderGeometry(.25, .27, .48, 16), WH, x, .34, z, g); add(new THREE.SphereGeometry(.25, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2), WH, x, .58, z, g); add(new THREE.CylinderGeometry(.26, .26, .04, 16), GR, x, .54, z, g); } }
 // 项目基地（微缩）：基建地坪 —— 浅色水泥格子地 + 黄色八角边框 + 四角黄黑斜纹 + 停机坪圈 + 地面喷字编号；三根供电杆、两间白色模块房，零星几只项目小克
-{ const c = document.createElement('canvas'); c.width = c.height = 1024; const g = c.getContext('2d'), oct = (r) => { g.beginPath(); for (let k = 0; k < 8; k++) { const a = Math.PI / 8 + k * Math.PI / 4; g.lineTo(512 + Math.cos(a) * r, 512 + Math.sin(a) * r); } g.closePath(); };
+if (USE_BASE) { const c = document.createElement('canvas'); c.width = c.height = 1024; const g = c.getContext('2d'), oct = (r) => { g.beginPath(); for (let k = 0; k < 8; k++) { const a = Math.PI / 8 + k * Math.PI / 4; g.lineTo(512 + Math.cos(a) * r, 512 + Math.sin(a) * r); } g.closePath(); };
   oct(500); g.fillStyle = '#D9D6CD'; g.fill(); g.save(); oct(500); g.clip();
   g.strokeStyle = '#C6C2B7'; g.lineWidth = 3; for (let x = 0; x <= 1024; x += 73) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, 1024); g.stroke(); g.beginPath(); g.moveTo(0, x); g.lineTo(1024, x); g.stroke(); }   // 水泥地坪的格子
   for (let k = 0; k < 4; k++) { const a = Math.PI / 4 + k * Math.PI / 2, cx = 512 + Math.cos(a) * 400, cy = 512 + Math.sin(a) * 400;   // 四角黄黑斜纹
@@ -1051,14 +1053,14 @@ const WH = M('#ECEEEB', .55), CON = M('#C8CBC6', .95), GR = M('#2A2D2F', .5), GL
   const t = new THREE.CanvasTexture(c); t.anisotropy = 8; t.colorSpace = THREE.SRGBColorSpace;
   const pad = new THREE.Mesh(new THREE.PlaneGeometry(7.2, 7.2), new THREE.MeshBasicMaterial({ map: t, transparent: true, depthWrite: false })); pad.rotation.x = -Math.PI / 2; pad.position.set(RX, .012, RZ); scene.add(pad); FT.push(pad); }
 const RING = 2.5, POLES = [];
-for (const a of [-Math.PI * .25, Math.PI * .75, Math.PI * 1.25]) { const px = RX + Math.cos(a) * RING, pz = RZ + Math.sin(a) * RING; POLES.push([px, pz]);
+if (USE_BASE) for (const a of [-Math.PI * .25, Math.PI * .75, Math.PI * 1.25]) { const px = RX + Math.cos(a) * RING, pz = RZ + Math.sin(a) * RING; POLES.push([px, pz]);
   add(new THREE.CylinderGeometry(.05, .07, 2.0, 6), GR, px, 1.0, pz); add(new THREE.BoxGeometry(.5, .05, .06), GR, px, 1.9, pz).rotation.y = -a; add(new THREE.CylinderGeometry(.2, .24, .08, 8), GR, px, .04, pz);
   add(new THREE.SphereGeometry(.07, 8, 6), GLOW, px, 2.05, pz); }
-for (const [dx, dz, w, ry] of [[2.3, .7, 1.1, -.3], [-2.4, -.2, .95, .4]]) {   // 两间白色模块房（深灰顶、黄色发光窗带、门口一盏灯）
+if (USE_BASE) for (const [dx, dz, w, ry] of [[2.3, .7, 1.1, -.3], [-2.4, -.2, .95, .4]]) {   // 两间白色模块房（深灰顶、黄色发光窗带、门口一盏灯）
   const r = new THREE.Group(); r.position.set(RX + dx, 0, RZ + dz); r.rotation.y = ry; scene.add(r);
   add(new THREE.BoxGeometry(w, .62, .72), WH, 0, .31, 0, r); add(new THREE.BoxGeometry(w + .08, .08, .8), GR, 0, .66, 0, r); add(new THREE.BoxGeometry(w * .35, .14, .3), WH, -w * .2, .77, 0, r);
   add(new THREE.BoxGeometry(w * .72, .06, .02), GLOW, 0, .42, .37, r); add(new THREE.BoxGeometry(.22, .36, .02), M('#3B3E40', .6), w * .3, .18, .37, r); add(new THREE.BoxGeometry(.06, .04, .06), GLOW, w * .3, .4, .4, r); }
-{ const segs = []; const cable = (a, b, sag = .35, n = 8) => { let prev = a;
+if (USE_BASE) { const segs = []; const cable = (a, b, sag = .35, n = 8) => { let prev = a;
     for (let k = 1; k <= n; k++) { const t = k / n, p = new THREE.Vector3().lerpVectors(a, b, t); p.y -= sag * 4 * t * (1 - t);
       const v = new THREE.Vector3().subVectors(p, prev), gm = new THREE.CylinderGeometry(.025, .025, v.length() + .01, 5);
       gm.applyMatrix4(new THREE.Matrix4().compose(prev.clone().addScaledVector(v, .5), new THREE.Quaternion().setFromUnitVectors(Y, v.clone().normalize()), new THREE.Vector3(1, 1, 1))); segs.push(gm); prev = p; } };
@@ -1081,7 +1083,7 @@ for (const [dx, dz, w, ry] of [[2.3, .7, 1.1, -.3], [-2.4, -.2, .95, .4]]) {   /
   const [sx, sy] = cellXY(LC - 1); const scr = new THREE.Mesh(new THREE.PlaneGeometry(cw - .1, ch * 2 - .1), new THREE.MeshBasicMaterial({ map: labelCanvas([['已签收', .32], [`${USE0.projects} 个项目`, .26]], (cw - .1) / (ch * 2 - .1), { band: '#2F4FD8' }) }));
   scr.position.set(sx, sy - ch / 2, front + .03); scene.add(scr); }
 // 搬运无人机：卸货口 ↔ 中枢电站、卸货口 ↔ 快递柜（去的时候挂着橙色包裹，回来空着）
-const DRONES = [[new THREE.Vector3(OX, 2.7, OZ + .4), new THREE.Vector3(RX, 4.2, RZ)], [new THREE.Vector3(OX - .4, 2.7, OZ + .4), new THREE.Vector3(LKX - .8, 3.0, LKZ)]].map(([a, b], i) => {
+const DRONES = [[new THREE.Vector3(OX, 2.7, OZ + .4), USE_BASE ? new THREE.Vector3(RX, 4.2, RZ) : new THREE.Vector3(LKX + .9, 3.4, LKZ)], [new THREE.Vector3(OX - .4, 2.7, OZ + .4), new THREE.Vector3(LKX - .8, 3.0, LKZ)]].filter(() => USE_BASE).map(([a, b], i) => {
   const g = new THREE.Group(); g.userData.st = 'use'; scene.add(g); add(new THREE.BoxGeometry(.36, .1, .36), GR, 0, 0, 0, g);
   for (const [x, z] of [[.24, .24], [-.24, .24], [.24, -.24], [-.24, -.24]]) { add(new THREE.BoxGeometry(.2, .02, .03), GR, x / 2, 0, z / 2, g).rotation.y = Math.atan2(z, x); add(new THREE.CylinderGeometry(.11, .11, .015, 12), M('#9EA4AB', .5), x, .05, z, g); }
   const cargo = add(new THREE.BoxGeometry(.26, .22, .26), mat.red, 0, -.2, 0, g); return { g, a, b, cargo, ph: i * .5 }; });
@@ -1090,29 +1092,27 @@ function animDrones(t) { if (!SI.use.on) { DRONES.forEach((d, i) => { d.g.positi
   d.g.position.lerpVectors(d.a, d.b, e); d.g.position.y += Math.sin(e * Math.PI) * .9; d.cargo.visible = go; }); }
 // 取件：小克在基地和快递柜之间来回走（走到柜子前开自己那格）
 { hitBox(LKX - 1.6, 1.0, LKZ + 1.4, 3.0, 2.0, 1.4, { card: { title: `◆ 取件 · ${SI.use.no} ${SI.use.name}`, lines: ['每个项目一只小克，自己走到快递柜开自己那格，把包裹背到背上', '背回自己的项目，拿去用'], url: USE.url, label: USE_LBL } });
-  hitBox(RX + .4, 5.8, RZ + 4.6, 4.4, 1.6, .8, { card: { title: `${SI.use.no} ${SI.use.name}`, lines: [SI.use.desc, '中间是中枢电站，顺着电线给周围每个项目的小克供电', `${USE0.projects} 个项目：${PROJ.slice(0, 6).join('、')}${PROJ.length > 6 ? '…' : ''}`], url: USE.url, label: USE_LBL } }); }
+  hitBox(RX + .4, 5.8, RZ + 4.6, 4.4, 1.6, .8, { card: { title: `${SI.use.no} ${SI.use.name}`, lines: [SI.use.desc, ...(USE_BASE ? ['中间是中枢电站，顺着电线给周围每个项目的小克供电'] : ['包裹送进快递柜，一格一个项目 = 签收']), `${USE0.projects} 个项目：${PROJ.slice(0, 6).join('、')}${PROJ.length > 6 ? '…' : ''}`], url: USE.url, label: USE_LBL } }); }
 // 工坊 → 成品货架 之间的传送带，上面走着加工好的成品（橙色小箱子）
 conveyorLate([[BX + 2.8, H0, ZK - 1.3], [BX - 1.4, H0, ZK - 1.3]]); conveyorLate([[BX - 1.4, H0, ZK + 1.2], [BX + 1.6, H0, ZK + 1.2], [BX + 1.6, H0, ZG - 2.0], [BX + .95, H0, ZG - 2.0], [BX + .5, .86, ZG - 2.0]]);   // 拐进货架：最后一小段往下斜，滑进第二层
 const MK = [prep([[BX - 1.4, H0, ZK + 1.2], [BX + 1.6, H0, ZK + 1.2], [BX + 1.6, H0, ZG - 2.0], [BX + .95, H0, ZG - 2.0], [BX + .3, .86, ZG - 2.0]])], MIN = prep([[BX + 2.8, H0, ZK - 1.3], [BX - 1.4, H0, ZK - 1.3]]);
 const inBoxes = new THREE.InstancedMesh(TOTE, vcMat, 3); sh(inBoxes); inBoxes.userData.keep = inBoxes.userData.moving = 1; scene.add(inBoxes);
 const mkBalls = new THREE.InstancedMesh(new THREE.BoxGeometry(.4, .3, .4), mat.red, 6); sh(mkBalls); mkBalls.userData.keep = mkBalls.userData.moving = 1; scene.add(mkBalls); const mkS = [0, 1.4, 2.8, 4.2]; mkBalls.count = mkS.length;
 function animMake(t, dt) {
-  const tMk = SI.make.on ? t : 3, tSh = SI.shop.on ? t : 3;
-  [0, 1.4, 2.8].forEach((s0, i) => { const s = (s0 + tMk * .7) % MIN.L; at(MIN, s, P3); putM(inBoxes, i, P3[0], P3[1] + .22, P3[2], .55, .55, .55); }); inBoxes.instanceMatrix.needsUpdate = true;
+  const tMk = SI.make.on ? t : 3;   // 关掉的站：机器停，传送带和车照样把东西送过去
+  [0, 1.4, 2.8].forEach((s0, i) => { const s = (s0 + t * .7) % MIN.L; at(MIN, s, P3); putM(inBoxes, i, P3[0], P3[1] + .22, P3[2], .55, .55, .55); }); inBoxes.instanceMatrix.needsUpdate = true;
   if (WS.press) WS.press.position.y = 1.62 + Math.abs(Math.sin(tMk * 2.2)) * .32; if (WS.glow) WS.glow.material.emissiveIntensity = .5 + Math.abs(Math.sin(tMk * 2.2)) * .9;
-  animDrones(t); mkS.forEach((s0, i) => { const r = MK[0]; const s = (s0 + tMk * .8) % r.L; at(r, s, P3); putM(mkBalls, i, P3[0], P3[1] + .25, P3[2]); }); mkBalls.instanceMatrix.needsUpdate = true;
-  if (fullN) { const k = (Math.sin(tSh * .4) + 1) / 2; kg.position.x = SHOP_END - 2.6 - k * (SHOP_END - 2.6 - (BX + 5.2)); }   // 满了的车在工坊和笼车之间来回跑
+  animDrones(t); mkS.forEach((s0, i) => { const r = MK[0]; const s = (s0 + t * .8) % r.L; at(r, s, P3); putM(mkBalls, i, P3[0], P3[1] + .25, P3[2]); }); mkBalls.instanceMatrix.needsUpdate = true;
+  if (fullN) { const k = (Math.sin(t * .4) + 1) / 2; kg.position.x = SHOP_END - 2.6 - k * (SHOP_END - 2.6 - (BX + 5.2)); }   // 满了的车在工坊和笼车之间来回跑
 }
 zoneSign(SI.make.no, SI.make.name, SI.make.en, BX + 7.0, ZK + 2.6, 4.4);   // 立在厂房和货架之间，两根柱子正好骑在传送带两边
-zoneSign('◆', '工坊', 'WORKSHOP', BX + 4.0, ZK + 3.2, 1.8); zoneSign('◆', '仓储', 'STOCK', BX + 1.4, ZG + 1.0, 1.8);
-zoneSign('◆', '整备', 'POWER HUB', RX + 1.0, RZ + 2.9, 1.8); zoneSign(SI.use.no, SI.use.name, SI.use.en, RX + .4, RZ + 4.6, 4.6);   // 06 立在送达区最前面
-zoneSign('◆', '签收', 'LOCKERS', LKX + 2.4, LKZ + 1.1, 1.8).userData.st = 'use'; zoneSign('◆', '取件', 'PICK-UP', LKX - 1.2, LKZ + 2.6, 1.6); zoneSign('◆', '卸货口', 'UNLOAD', OX + 2.6, OZ + 1.8, 1.8);   // 灰牌立在各自东西的正前面
+zoneSign(SI.use.no, SI.use.name, SI.use.en, USE_BASE ? RX + .4 : LKX + 5.5, USE_BASE ? RZ + 4.6 : LKZ - 1.5, 4.6);   // 06 立在送达区前面；附属的灰色小牌子都不要了（用户 2026-10-25）   // 灰牌立在各自东西的正前面
 const own = (txt, x, z, w) => floorText([[txt, '#7A6F62', .6]], x, z, w, { ratio: 6 });   // 地上标这一站在哪个工具里做：比区名深一点
 if (GUIDE.name) own(`${GUIDE.name}  ${SI.make.name}`, BX + 1.0, ZK - 3.2, 6.0);   // 地上标：这一站在哪个工具里做（links.make.name，没填就不写）
 hitBox(BX, 2, ZK, 6.4, 4.6, 5, { card: { title: `${SI.make.no} ${SI.make.name}`, lines: [SI.make.desc, ...(fullN ? [`现在满了 ${fullN} 车，在集包区排着`] : [])], url: GUIDE.url, label: GUIDE_LBL } });
 hitBox(BX, 2, ZG, 2, 4.6, 5.6, { card: { title: `◆ 仓储 · ${SI.make.no} ${SI.make.name}`, lines: [`做好的成品先放上货架：一共 ${GUIDE0.all} 个，自己做的 ${GUIDE0.mine} 个`, '一层一类，橙色小箱子 = 自己做的，牛皮纸色 = 别处来的；半透明的空位留给以后的新东西'], url: GUIDE.url, label: GUIDE_LBL } });
-hitBox(RX, 2.0, RZ, 3.8, 4.2, 3.8, { card: { title: `◆ 整备 · ${SI.use.no} ${SI.use.name}（中枢电站）`, lines: ['无人机从卸货口把东西送进来，顺着黄电线给周围每个项目的小克供电', '只给某个项目用的，无人机直接送进快递柜那个项目的格子'], url: USE.url, label: USE_LBL } });
-hitBox(LKX, 1.2, LKZ, 4.2, 2.6, 1.6, { card: { title: `◆ 签收 · ${SI.use.no} ${SI.use.name}（快递柜）`, lines: [`一格一个项目，${USE0.projects} 个：${PROJ.slice(0, 6).join('、')}${PROJ.length > 6 ? '…' : ''}`, '无人机把某个项目要用的包裹送进这个项目的格子 = 签收', '◆ 取件：每个项目的小克自己来开格子，背回去用'], url: USE.url, label: USE_LBL } });
+if (USE_BASE) hitBox(RX, 2.0, RZ, 3.8, 4.2, 3.8, { card: { title: `◆ 整备 · ${SI.use.no} ${SI.use.name}（中枢电站）`, lines: ['无人机从卸货口把东西送进来，顺着黄电线给周围每个项目的小克供电', '只给某个项目用的，无人机直接送进快递柜那个项目的格子'], url: USE.url, label: USE_LBL } });
+hitBox(LKX, 1.2, LKZ, 4.2, 2.6, 1.6, { card: { title: `◆ 签收 · ${SI.use.no} ${SI.use.name}（快递柜）`, lines: [`一格一个项目，${USE0.projects} 个：${PROJ.slice(0, 6).join('、')}${PROJ.length > 6 ? '…' : ''}`, USE_BASE ? '无人机把某个项目要用的包裹送进这个项目的格子 = 签收' : '做好的东西从旁边的货架送进快递柜，一格一个项目 = 签收', '◆ 取件：每个项目的小克自己来开格子，背回去用'], url: USE.url, label: USE_LBL } });
 
 // ===== 小克：像素小克一格一格做成方块 3D =====
 // 耳朵 / 尾巴 / 帽子 / 脸 / 身上 / 围巾的名字和桌宠、工作台一样；多了 快递帽(cap)、马甲(vest)，颜色跟着「配件颜色」（克递员可以跟着码头颜色）
@@ -1222,8 +1222,8 @@ placeClawd('boss', doorX(ND - 1) + 2.9, DIST_Z + 2.0, { name: D.boss });
 placeClawd('shop', cageX(0), SHOP_Z + 3.2, { walk: [cageX(0), cageX(NC - 1)], name: D.roles.shop });
 placeClawd('guard', BX + 5.0, ZK - 2.6, { name: D.roles.guard });
 { const pk = Object.keys(D.crew).filter(n => D.crew[n].role === 'prep').sort()[0]; placeClawd('prep', BX - .8, ZK + .2, { name: pk ? pk + (D.crew[pk].active ? '' : '（歇着）') : D.roles.prep, scale: 1.1, lift: .56, sway: 1 }); placeClawd('prep', BX + 1.9, ZK - .35, { name: `${D.roles.prep}（帮手）`, scale: .9, lift: .56 }); }   // 加工员在玻璃工坊里干活
-placeClawd('desk', LKX - 1.0, LKZ + 1.3, { name: D.roles.desk, walk: [RX + 2.8, LKX - .4] });
-[[RX - 1.2, RZ + 2.0], [RX + 2.6, RZ - 1.2], [RX - 2.9, RZ + 1.0]].forEach(([px, pz], k) => placeClawd('agent', px, pz, { name: PROJ[k] || D.roles.agent, scale: 1.0 }));   // 零星几只干员小克
+placeClawd('desk', LKX - 1.0, LKZ + 1.3, { name: D.roles.desk, walk: USE_BASE ? [RX + 2.8, LKX - .4] : [LKX - 1.6, LKX + 1.1] });
+if (USE_BASE) [[RX - 1.2, RZ + 2.0], [RX + 2.6, RZ - 1.2], [RX - 2.9, RZ + 1.0]].forEach(([px, pz], k) => placeClawd('agent', px, pz, { name: PROJ[k] || D.roles.agent, scale: 1.0 }));   // 零星几只干员小克
 let DIY = { roles: {}, sets: [], parts: [], themes: [], theme: 'orange-ink', deco: { flags: true, plants: true, sign: true }, signText: '克鸟驿站', hidden: [] };
 let tryLook = null;   // 换装台里“试穿中”的 { role, look }
 const allSets = () => [...SETS0.filter(s => !DIY.hidden.includes(s.id)), ...DIY.sets];
@@ -1260,7 +1260,7 @@ const MIAO = (() => { const g = new THREE.Group(); g.userData.keep = 1; scene.ad
   const SW = M('#5FB8F5', .3), SWH = M('#E6F6FF', .3), sweat = new THREE.Group(); g.add(sweat);
   const px = (x, y, z, m = SW, n = .1) => add(new THREE.BoxGeometry(n, n, n), m, x, y, z, sweat);
   // 汗画在小克脸上了（clawdVoxels 的 sweat），这里不再单独放方块
-  hitBox(0, .8, 0, 3.2, 1.6, 1.4, { egg: 1, card: { title: '喵喵在兜风', lines: ['小克拉着喵喵在驿站里转一圈，看看大家有没有在干活', '喵喵 = 作者 Miaomiao。作者在找工作！有机会欢迎在领英联系'], url: 'https://www.linkedin.com/in/miaomiao-yang-331901383', label: '联系作者 · 领英 ↗' } }); g.add(PICK[PICK.length - 1]);
+  hitBox(0, .8, 0, 3.2, 1.6, 1.4, { egg: 1, card: { title: '喵喵在兜风', lines: ['小克拉着喵喵在驿站里转一圈，看看大家有没有在干活', '喵喵 = 作者 Miaomiao。作者在找工作！简历和作品都在作者的网站上', '也可以在领英找到：Miaomiao Yang · 小红书 @羊猫猫不是猫'], url: 'https://miaomiaoyang.netlify.app', label: '作者的网站 ↗' } }); g.add(PICK[PICK.length - 1]);
   g.scale.setScalar(1.4); return { g, ck, cat, sweat, path: [4.0, 11.0], x: KN >= 3 ? 22.4 : 19.6 }; })();   // 专库摆到第 3 个货架时，喵喵的小车往东让一让
 // 控制台气球：橙白相间的浮空气球（学基地的浮空信标），下面挂一块发光屏「控制台」，一根绳子拴在地上的小桩；一上一下地飘，点了打开控制台
 { const g = new THREE.Group(); g.position.set(23.8, 0, 17.3); g.rotation.y = faceY; g.scale.setScalar(1.3); g.userData.keep = 1; scene.add(g);   // 控制台小亭子（原样）
@@ -1441,15 +1441,15 @@ document.getElementById('flow').innerHTML =
   '<div class="fgrp att fold" data-g="s5">' + subFs(fsb('make', '◆', '工坊', '把满了的一车做成成品', '')) + subFs(fsb('guide', '◆', '仓储', '做好的成品放上货架，空位留给新的', '')) +
   '</div><div class="fa">↓</div>' +
   fsS('use', esc(SI.use.desc), `${USE.projects} 个项目`, USE.url, USE_LBL, 's6') +
-  '<div class="fgrp att fold" data-g="s6">' + subFs(fsb('power', '◆', '整备', '无人机把东西送进中枢电站，顺着电线给每个项目供电', '')) +
-  subFs(fsb('locker', '◆', '签收', '无人机把某个项目要用的包裹送进快递柜里这个项目的格子', `${USE.projects} 格`)) + subFs(fsb('use', '◆', '取件', '每个项目一只小克，开自己那格把包裹背走，回去用', '')) +
+  '<div class="fgrp att fold" data-g="s6">' + (USE_BASE ? subFs(fsb('power', '◆', '整备', '无人机把东西送进中枢电站，顺着电线给每个项目供电', '')) : '') +
+  subFs(fsb('locker', '◆', '签收', USE_BASE ? '无人机把某个项目要用的包裹送进快递柜里这个项目的格子' : '做好的东西从旁边的货架送进快递柜，一格一个项目', `${USE.projects} 格`)) + subFs(fsb('use', '◆', '取件', '每个项目一只小克，开自己那格把包裹背走，回去用', '')) +
   '</div>';
 document.querySelectorAll('#flow [data-k]').forEach(c => c.addEventListener('click', e => { if (e.target.closest('a')) return;
   const t = e.target.closest('.tog'); if (t) { const g = document.querySelector(`#flow [data-g="${t.dataset.fold}"]`); g.classList.toggle('fold'); t.textContent = g.classList.contains('fold') ? '▾' : '▴'; return; }
   fly(c.dataset.k); if (isPhone) closeConsole(); }));
 // ===== 站点开关（通用版）：点一站开 / 关，再点「保存并刷新」。关掉的站不收起来，原地变灰、挂暂停牌（记在这台设备上） =====
 { const pick = new Set(ST_ON), el = document.getElementById('stList');
-  const draw = () => { el.innerHTML = ST_ORDER.map(id => { const st = SI[id], on = pick.has(id); return `<button class="fs ${on ? '' : 'off'}" data-st="${id}"><i>${st.no}</i><div><b>${esc(st.name)}</b><p>${esc(st.desc)}</p></div><span><em>${on ? '开着' : '暂停'}</em></span></button>`; }).join('') +
+  const draw = () => { el.innerHTML = ST_ORDER.map(id => { const st = SI[id], on = pick.has(id), fin = id === 'use'; return `<button class="fs ${on ? '' : 'off'}" ${fin ? '' : `data-st="${id}"`}><i>${st.no}</i><div><b>${esc(st.name)}</b><p>${esc(st.desc)}</p></div><span><em>${fin ? '终点' : on ? '开着' : '暂停'}</em></span></button>`; }).join('') +
     `<button class="stGo" id="stGo">保存并刷新</button>`; };
   el.addEventListener('click', e => { const b = e.target.closest('[data-st]');
     if (b) { const id = b.dataset.st; if (pick.has(id)) { if (pick.size > 1) pick.delete(id); } else pick.add(id); draw(); return; }
@@ -1464,6 +1464,11 @@ document.querySelectorAll('#flow [data-k]').forEach(c => c.addEventListener('cli
     const lang = /lang=(en|zh)/.exec(location.hash); location.hash = lang ? 'lang=' + lang[1] : ''; location.reload(); };
   el.addEventListener('click', e => { const b = e.target.closest('[data-tpl]'); if (b) { if (b.dataset.tpl !== cur || D.preview !== !RAW.sample) go(b.dataset.tpl); return; } if (e.target.closest('[data-mine]')) go(null); });
   if (D.sample && !TPL_PICK && !/st=/.test(location.hash)) setTimeout(() => openConsole('st'), 400); }   // 第一次打开（还是示例数据）：先请你挑一套
+// ===== 06 终点的样子：简洁版（快递签收柜）/ 终未地版（和作者的另一个项目「今日小克终未地」联动）。记在这台设备上；数据里也能写 use_style =====
+{ const el = document.getElementById('useList'), opts = [['locker', '简洁版：快递签收柜', '包裹送进快递柜，一格一个项目 = 签收。只用驿站就选这个'], ['base', '终未地版：项目基地 + 中枢电站', '和作者的另一个开源项目「今日小克终未地」联动']];
+  el.innerHTML = opts.map(([k, t, p]) => `<button class="fs" data-use="${k}"><i>${k === USE_STYLE ? '✓' : '·'}</i><div><b>${t}</b><p>${p}</p></div><span><em>${k === USE_STYLE ? '在用' : '换这个'}</em></span></button>`).join('') +
+    `<div class="note">「今日小克终未地」（Clawdfield）是作者的另一个开源项目：一个项目工作台，每个项目一只小克员工，记待办、收好作品、看大家在干嘛，还能配一只桌面宠物。打开终未地版，驿站送达的东西就进到每个项目小克的手里。会发在 github.com/Miaomiaomeowmeow。</div>`;
+  el.addEventListener('click', e => { const b = e.target.closest('[data-use]'); if (!b || b.dataset.use === USE_STYLE) return; try { localStorage.setItem('clawnveyor-use-style', b.dataset.use); } catch (er) {} location.reload(); }); }
 // ===== 控制台：开 / 关 / 换一块 =====
 function openConsole(p) { $c('console').classList.add('on'); $c('ctab').classList.add('on'); if (p) showPane(p); if (typeof diyEl !== 'undefined') diyEl.classList.remove('on'); }
 function closeConsole() { $c('console').classList.remove('on'); $c('ctab').classList.remove('on'); }
@@ -1642,7 +1647,7 @@ applyTheme(); applyDeco();
 if (window.claude && claude.use) claude.use('db').then(d => { db = d; if (!db) return;
   db.doc('diy/main').onSnapshot(s => { if (!s.exists || (s.metadata && s.metadata.hasPendingWrites) || saving || pending || unsaved || Date.now() - localEdit < 4000) return; const d = s.data(); if (JSON.stringify(d) === lastSent) return; loadDiy(d); }, () => {}); }).catch(() => {});   // 只接别的设备改的，不让自己存的回声盖掉刚点的
 
-// ===== 没开的站：原地变灰 + 一圈黄黑警戒带（暂停章盖在站牌上）。只换颜色、不挪东西；里面不站小克；动画停在原地；传送带上的箱子走到它的地界就不见了 =====
+// ===== 没开的站：原地变灰 + 一圈黄黑警戒带（暂停章盖在站牌上）。只换颜色、不挪东西；里面不站小克、机器停；传送带和车照样转，东西直接路过，最后都送进 06 =====
 function regray() { if (!GRAYS) return; for (const g of GRAYS) { const f = g.userData.from; if (!f.color) continue;
   if (f.map || f.vertexColors) g.color.setRGB(.58, .58, .58); else { const c = f.color, l = c.r * .3 + c.g * .59 + c.b * .11, v = .1 + l * .5; g.color.setRGB(v, v * .98, v * .95); } } }
 { GRAYS = []; const gm = new Map(), m4 = new THREE.Matrix4(), cc = new THREE.Vector3(), bb = new THREE.Box3(), DIM = new THREE.Color(.5, .5, .5);
@@ -1659,7 +1664,6 @@ function regray() { if (!GRAYS) return; for (const g of GRAYS) { const f = g.use
     const st = tg || (bb.setFromObject(o), bb.isEmpty() ? null : stAt((bb.min.x + bb.max.x) / 2, (bb.min.z + bb.max.z) / 2));
     if (OFF(st)) o.material = Array.isArray(o.material) ? o.material.map(grayOf) : grayOf(o.material); }
   regray();
-  inBoxes.visible = mkBalls.visible = SI.make.on; shopItems.visible = SI.shop.on;
   // 警戒带：沿每一站的地界一圈立杆、拉黄黑带；杆子落在东西上、带子穿过东西的那一段就不拉（不穿模）
   const TAPE = { dock: [[-24.7, -7.5, .1, 19.3]], sort: [[-7.1, 12.0, -10.9, 19.3], [12.0, 23.1, 6.7, 11.7]], store: [[12.4, 24.7, -12.6, -.25]], shop: [[-12.9, 17.4, -19.4, -12.95]],
     make: [[-24.7, -13.1, -19.4, -11.75], [-24.7, -17.35, -11.75, -6.4]], use: [[-17.35, -7.55, -11.45, -.25], [-24.7, -17.35, -6.4, -.25]] };
@@ -1691,7 +1695,7 @@ function animate(dt, t) {
   const tDk = SI.dock.on ? t : 3, tSo = SI.sort.on ? t : 3, tSt = SI.store.on ? t : 3;   // 没开的站：动画停在原地
   for (let i = 0; i < N; i++) { const o = it[i]; o.s += speed * dt; if (o.s > o.r.L) { o.s = 0; o.r = o.ret ? RR2[gateOf(srcOf(i))] : pickRoute(i, i + Math.floor(t) * 3); }
     at(o.r, o.s, P3); at(o.r, Math.min(o.r.L, o.s + .3), P3b);
-    tmp.position.set(P3[0], P3[1] + .22, P3[2]); tmp.rotation.set(0, Math.atan2(-(P3b[2] - P3[2]), P3b[0] - P3[0] || 1e-6), Math.atan2(P3b[1] - P3[1], Math.hypot(P3b[0] - P3[0], P3b[2] - P3[2]) || 1)); const sk = offAt(P3[0], P3[2]) ? 0 : 1; tmp.scale.set(sk, sk, sk); tmp.updateMatrix(); items.setMatrixAt(i, tmp.matrix); }   // 走进没开的站就不见了
+    tmp.position.set(P3[0], P3[1] + .22, P3[2]); tmp.rotation.set(0, Math.atan2(-(P3b[2] - P3[2]), P3b[0] - P3[0] || 1e-6), Math.atan2(P3b[1] - P3[1], Math.hypot(P3b[0] - P3[0], P3b[2] - P3[2]) || 1)); tmp.scale.set(1, 1, 1); tmp.updateMatrix(); items.setMatrixAt(i, tmp.matrix); }
   items.instanceMatrix.needsUpdate = true;
   LIFTPUSH.forEach(p => { p.position.x = 16.6 + Math.max(0, Math.sin(tSt * 2.2)) * .5; });
   { const u = (tSt * .25) % 1, yT = 3.4, yB = H0 - .08, k = u < .4 ? 0 : u < .6 ? (u - .4) / .2 : 1;   // 出库升降机：下来 → 推上集包线 → 空着上去

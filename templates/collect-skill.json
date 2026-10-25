@@ -10,62 +10,371 @@
   "unit": "件",
   "unit_en": "items",
   "stations": [
-    { "id": "dock", "on": true, "name": "揽收", "name_en": "Pickup", "en": "PICKUP", "desc": "抓取员去各个来源把资料搬回来", "desc_en": "Fetchers bring things back from each source" },
-    { "id": "sort", "on": true, "name": "分拣", "name_en": "Sort", "en": "SORTING", "desc": "分拣员一件件看，按「拿去干嘛」分到一个去处", "desc_en": "Sorters look at each item and send it where it is useful" },
-    { "id": "store", "on": true, "name": "入库", "name_en": "Store", "en": "STORAGE", "desc": "有用的写成笔记，存进资料库", "desc_en": "Useful items become notes in the library" },
-    { "id": "shop", "on": true, "name": "集包", "name_en": "Pack", "en": "CONSOLIDATION", "desc": "笔记按类别装车，一类一辆，攒够门槛亮灯", "desc_en": "Notes go into one cart per topic; a full cart lights up" },
-    { "id": "make", "on": true, "name": "加工", "name_en": "Process", "en": "PROCESS", "desc": "满了的车开过来，把一类笔记整理成一个技能，放上货架", "desc_en": "Full carts arrive; each topic becomes a skill on the shelf" },
-    { "id": "use", "on": true, "name": "送达", "name_en": "Deliver", "en": "DELIVERY", "desc": "无人机把技能送到每个项目手里", "desc_en": "Drones deliver skills to every project" }
+    {
+      "id": "dock",
+      "on": true,
+      "name": "揽收",
+      "name_en": "Pickup",
+      "en": "PICKUP",
+      "desc": "抓取员去各个来源把资料搬回来",
+      "desc_en": "Fetchers bring things back from each source"
+    },
+    {
+      "id": "sort",
+      "on": true,
+      "name": "分拣",
+      "name_en": "Sort",
+      "en": "SORTING",
+      "desc": "分拣员一件件看，按「拿去干嘛」分到一个去处",
+      "desc_en": "Sorters look at each item and send it where it is useful"
+    },
+    {
+      "id": "store",
+      "on": true,
+      "name": "入库",
+      "name_en": "Store",
+      "en": "STORAGE",
+      "desc": "有用的写成笔记，存进资料库",
+      "desc_en": "Useful items become notes in the library"
+    },
+    {
+      "id": "shop",
+      "on": true,
+      "name": "集包",
+      "name_en": "Pack",
+      "en": "CONSOLIDATION",
+      "desc": "笔记按类别装车，一类一辆，攒够门槛亮灯",
+      "desc_en": "Notes go into one cart per topic; a full cart lights up"
+    },
+    {
+      "id": "make",
+      "on": true,
+      "name": "加工",
+      "name_en": "Process",
+      "en": "PROCESS",
+      "desc": "满了的车开过来，把一类笔记整理成一个技能，放上货架",
+      "desc_en": "Full carts arrive; each topic becomes a skill on the shelf"
+    },
+    {
+      "id": "use",
+      "on": true,
+      "name": "送达",
+      "name_en": "Deliver",
+      "en": "DELIVERY",
+      "desc": "无人机把技能送到每个项目手里",
+      "desc_en": "Drones deliver skills to every project"
+    }
   ],
-  "roles": { "dock": "抓取员", "lane": "分拣员", "boss": "馆长", "shop": "集包员", "prep": "加工员", "guard": "门卫", "desk": "取件员", "agent": "项目小克" },
-  "roles_en": { "dock": "Fetcher", "lane": "Sorter", "boss": "Curator", "shop": "Packer", "prep": "Maker", "guard": "Guard", "desk": "Courier", "agent": "Project Clawd" },
-  "lanes": ["Sort-1", "Sort-2", "Sort-3"],
+  "roles": {
+    "dock": "抓取员",
+    "lane": "分拣员",
+    "boss": "馆长",
+    "shop": "集包员",
+    "prep": "加工员",
+    "guard": "门卫",
+    "desk": "取件员",
+    "agent": "项目小克"
+  },
+  "roles_en": {
+    "dock": "Fetcher",
+    "lane": "Sorter",
+    "boss": "Curator",
+    "shop": "Packer",
+    "prep": "Maker",
+    "guard": "Guard",
+    "desk": "Courier",
+    "agent": "Project Clawd"
+  },
+  "lanes": [
+    "Sort-1",
+    "Sort-2",
+    "Sort-3"
+  ],
   "sources": [
-    { "name": "网页", "en": "Web", "worker": "Fetch-1", "color": "#2F9FD8", "url": "", "steps": ["打开收藏的网页", "截图 + 记链接", "打包寄进驿站"], "steps_en": ["Open a saved page", "Screenshot + link", "Pack and send in"] },
-    { "name": "视频", "en": "Video", "worker": "Fetch-2", "color": "#FB7299", "url": "", "steps": ["看收藏的视频", "记下要点和时间点"], "steps_en": ["Watch a saved video", "Note key points and timestamps"] },
-    { "name": "论坛", "en": "Forum", "worker": "Fetch-3", "color": "#5865F2", "url": "" },
-    { "name": "代码仓库", "en": "Repo", "worker": "Fetch-4", "color": "#24292F", "url": "" },
-    { "name": "收藏夹", "en": "Saved", "worker": "Fetch-5", "color": "#E2412B", "url": "" }
+    {
+      "name": "网页",
+      "en": "Web",
+      "worker": "Fetch-1",
+      "color": "#2F9FD8",
+      "url": "",
+      "steps": [
+        "打开收藏的网页",
+        "截图 + 记链接",
+        "打包寄进驿站"
+      ],
+      "steps_en": [
+        "Open a saved page",
+        "Screenshot + link",
+        "Pack and send in"
+      ]
+    },
+    {
+      "name": "视频",
+      "en": "Video",
+      "worker": "Fetch-2",
+      "color": "#FB7299",
+      "url": "",
+      "steps": [
+        "看收藏的视频",
+        "记下要点和时间点"
+      ],
+      "steps_en": [
+        "Watch a saved video",
+        "Note key points and timestamps"
+      ]
+    },
+    {
+      "name": "论坛",
+      "en": "Forum",
+      "worker": "Fetch-3",
+      "color": "#5865F2",
+      "url": ""
+    },
+    {
+      "name": "代码仓库",
+      "en": "Repo",
+      "worker": "Fetch-4",
+      "color": "#24292F",
+      "url": ""
+    },
+    {
+      "name": "收藏夹",
+      "en": "Saved",
+      "worker": "Fetch-5",
+      "color": "#E2412B",
+      "url": ""
+    }
   ],
   "crew": {
-    "Fetch-1": { "text": "在抓第 12 页", "text_en": "On page 12", "time": "12:40", "active": true },
-    "Fetch-3": { "text": "在翻帖子", "text_en": "Reading threads", "time": "12:31", "active": true },
-    "Sort-1": { "text": "在看 web-0412", "text_en": "Looking at web-0412", "time": "12:42", "active": true },
-    "Sort-2": { "text": "在看 video-0087", "text_en": "Looking at video-0087", "time": "12:38", "active": true },
-    "Make-1": { "role": "prep", "text": "在整理「写作」这一车", "text_en": "Working on the Writing cart", "time": "11:50", "active": false }
+    "Fetch-1": {
+      "text": "在抓第 12 页",
+      "text_en": "On page 12",
+      "time": "12:40",
+      "active": true
+    },
+    "Fetch-3": {
+      "text": "在翻帖子",
+      "text_en": "Reading threads",
+      "time": "12:31",
+      "active": true
+    },
+    "Sort-1": {
+      "text": "在看 web-0412",
+      "text_en": "Looking at web-0412",
+      "time": "12:42",
+      "active": true
+    },
+    "Sort-2": {
+      "text": "在看 video-0087",
+      "text_en": "Looking at video-0087",
+      "time": "12:38",
+      "active": true
+    },
+    "Make-1": {
+      "role": "prep",
+      "text": "在整理「写作」这一车",
+      "text_en": "Working on the Writing cart",
+      "time": "11:50",
+      "active": false
+    }
   },
-  "counts": { "unloading": 2, "waiting": 6, "done": 40, "today_in": 18, "today_done": 12, "today_returned": 1, "stored": 320 },
+  "counts": {
+    "unloading": 2,
+    "waiting": 6,
+    "done": 40,
+    "today_in": 18,
+    "today_done": 12,
+    "today_returned": 1,
+    "stored": 320
+  },
   "outputs": [
-    { "name": "资料库", "name_en": "Library", "main": true, "color": "#E03C31", "note": "学怎么做的，写成笔记", "note_en": "How-to notes", "count": 320 },
-    { "name": "设计参考", "name_en": "Design refs", "process": true, "color": "#E87FA8", "note": "好看的界面和版式，很多项目都会用", "note_en": "Nice layouts, shared by many projects", "count": 48 },
-    { "name": "配色本", "name_en": "Palettes", "process": true, "color": "#8A5CF6", "note": "好看的配色", "note_en": "Nice color sets", "count": 21 },
-    { "name": "随手存", "name_en": "Keep", "process": false, "color": "#2E9E6A", "note": "自己用，不加工", "note_en": "Personal, not processed", "count": 35 }
+    {
+      "name": "资料库",
+      "name_en": "Library",
+      "main": true,
+      "color": "#E03C31",
+      "note": "学怎么做的，写成笔记",
+      "note_en": "How-to notes",
+      "count": 320
+    },
+    {
+      "name": "设计参考",
+      "name_en": "Design refs",
+      "process": true,
+      "color": "#E87FA8",
+      "note": "好看的界面和版式，很多项目都会用",
+      "note_en": "Nice layouts, shared by many projects",
+      "count": 48
+    },
+    {
+      "name": "配色本",
+      "name_en": "Palettes",
+      "process": true,
+      "color": "#8A5CF6",
+      "note": "好看的配色",
+      "note_en": "Nice color sets",
+      "count": 21
+    },
+    {
+      "name": "随手存",
+      "name_en": "Keep",
+      "process": false,
+      "color": "#2E9E6A",
+      "note": "自己用，不加工",
+      "note_en": "Personal, not processed",
+      "count": 35
+    }
   ],
   "carts": [
-    { "name": "网页动效", "name_en": "Web motion", "color": "#E03C31", "need": 10, "have": 7 },
-    { "name": "界面设计", "name_en": "UI design", "color": "#2F9FD8", "need": 10, "have": 10 },
-    { "name": "AI 工作流", "name_en": "AI workflow", "color": "#2E9E6A", "need": 8, "have": 3 },
-    { "name": "3D 场景", "name_en": "3D scenes", "color": "#8A5CF6", "need": 10, "have": 5 },
-    { "name": "写作", "name_en": "Writing", "color": "#D4A017", "need": 6, "have": 6 },
-    { "name": "数据图表", "name_en": "Charts", "color": "#C2185B", "need": 8, "have": 2 }
+    {
+      "name": "网页动效",
+      "name_en": "Web motion",
+      "color": "#E03C31",
+      "need": 10,
+      "have": 7
+    },
+    {
+      "name": "界面设计",
+      "name_en": "UI design",
+      "color": "#2F9FD8",
+      "need": 10,
+      "have": 10
+    },
+    {
+      "name": "AI 工作流",
+      "name_en": "AI workflow",
+      "color": "#2E9E6A",
+      "need": 8,
+      "have": 3
+    },
+    {
+      "name": "3D 场景",
+      "name_en": "3D scenes",
+      "color": "#8A5CF6",
+      "need": 10,
+      "have": 5
+    },
+    {
+      "name": "写作",
+      "name_en": "Writing",
+      "color": "#D4A017",
+      "need": 6,
+      "have": 6
+    },
+    {
+      "name": "数据图表",
+      "name_en": "Charts",
+      "color": "#C2185B",
+      "need": 8,
+      "have": 2
+    }
   ],
   "shelf": [
-    { "name": "网页动效", "name_en": "Web motion", "mine": 2, "all": 6 },
-    { "name": "界面设计", "name_en": "UI design", "mine": 3, "all": 8 },
-    { "name": "AI 工作流", "name_en": "AI workflow", "mine": 1, "all": 4 },
-    { "name": "3D 场景", "name_en": "3D scenes", "mine": 2, "all": 5 },
-    { "name": "写作", "name_en": "Writing", "mine": 1, "all": 3 },
-    { "name": "数据图表", "name_en": "Charts", "mine": 0, "all": 2 }
+    {
+      "name": "网页动效",
+      "name_en": "Web motion",
+      "mine": 2,
+      "all": 6
+    },
+    {
+      "name": "界面设计",
+      "name_en": "UI design",
+      "mine": 3,
+      "all": 8
+    },
+    {
+      "name": "AI 工作流",
+      "name_en": "AI workflow",
+      "mine": 1,
+      "all": 4
+    },
+    {
+      "name": "3D 场景",
+      "name_en": "3D scenes",
+      "mine": 2,
+      "all": 5
+    },
+    {
+      "name": "写作",
+      "name_en": "Writing",
+      "mine": 1,
+      "all": 3
+    },
+    {
+      "name": "数据图表",
+      "name_en": "Charts",
+      "mine": 0,
+      "all": 2
+    }
   ],
-  "projects": ["个人网站", "小游戏", "周报工具", "作品集", "插画店", "读书笔记"],
-  "projects_en": ["Personal site", "Mini game", "Weekly report", "Portfolio", "Art shop", "Reading notes"],
-  "links": { "make": { "name": "", "url": "" }, "use": { "name": "", "url": "" } },
+  "projects": [
+    "个人网站",
+    "小游戏",
+    "周报工具",
+    "作品集",
+    "插画店",
+    "读书笔记"
+  ],
+  "projects_en": [
+    "Personal site",
+    "Mini game",
+    "Weekly report",
+    "Portfolio",
+    "Art shop",
+    "Reading notes"
+  ],
+  "links": {
+    "make": {
+      "name": "",
+      "url": ""
+    },
+    "use": {
+      "name": "",
+      "url": ""
+    }
+  },
   "log": [
-    { "d": "2026-10-18", "t": "12:42", "who": "Sort-1", "what": "上架 web-0411 → 资料库", "what_en": "Shelved web-0411 → Library" },
-    { "d": "2026-10-18", "t": "12:40", "who": "Fetch-1", "what": "寄出 web-0412", "what_en": "Sent web-0412" },
-    { "d": "2026-10-18", "t": "12:33", "who": "Sort-2", "what": "上架 video-0086 → 设计参考", "what_en": "Shelved video-0086 → Design refs" },
-    { "d": "2026-10-18", "t": "12:31", "who": "Fetch-3", "what": "寄出 forum-0230", "what_en": "Sent forum-0230" },
-    { "d": "2026-10-18", "t": "12:20", "who": "Sort-1", "what": "退回 web-0405（打不开）", "what_en": "Returned web-0405 (broken link)" },
-    { "d": "2026-10-18", "t": "11:50", "who": "Make-1", "what": "「写作」这一车做成了技能", "what_en": "The Writing cart became a skill" }
+    {
+      "d": "2026-10-18",
+      "t": "12:42",
+      "who": "Sort-1",
+      "what": "上架 web-0411 → 资料库",
+      "what_en": "Shelved web-0411 → Library"
+    },
+    {
+      "d": "2026-10-18",
+      "t": "12:40",
+      "who": "Fetch-1",
+      "what": "寄出 web-0412",
+      "what_en": "Sent web-0412"
+    },
+    {
+      "d": "2026-10-18",
+      "t": "12:33",
+      "who": "Sort-2",
+      "what": "上架 video-0086 → 设计参考",
+      "what_en": "Shelved video-0086 → Design refs"
+    },
+    {
+      "d": "2026-10-18",
+      "t": "12:31",
+      "who": "Fetch-3",
+      "what": "寄出 forum-0230",
+      "what_en": "Sent forum-0230"
+    },
+    {
+      "d": "2026-10-18",
+      "t": "12:20",
+      "who": "Sort-1",
+      "what": "退回 web-0405（打不开）",
+      "what_en": "Returned web-0405 (broken link)"
+    },
+    {
+      "d": "2026-10-18",
+      "t": "11:50",
+      "who": "Make-1",
+      "what": "「写作」这一车做成了技能",
+      "what_en": "The Writing cart became a skill"
+    }
   ]
 }
