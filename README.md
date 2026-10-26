@@ -140,10 +140,28 @@ Each Actions run starts on a fresh machine, so this board shows that one run. Jo
 | `projects`, `links` | Who receives the deliveries; optional links for the Process and Deliver stations |
 | `log` | Latest lines for the console log |
 
+## Adding a 7th station
+
+The scene has six stations. To add a seventh, ask your AI (Claude Code, Codex, Cursor…) to edit `dashboard-template.html` as below, then add a line to `stations` in `data/flow.json`.
+
+![Recommended spot for station 7: next to 06, just outside the top-left corner of the floor, with one turn from 06](docs/screenshots/add-station.png)
+
+- **Recommended spot (orange in the picture)**: next to 06, just outside the top-left corner of today's floor. When a 7th station is added, the floor grows to cover it; until then it isn't there.
+- **How to connect it**: one belt from 06 with a single turn into 07. No detours.
+- **The harvest still comes last**: if 07 comes after 06, it becomes the new finish line, so the parcel locker moves to the last station.
+- **Adding one in the middle** (say, an extra check after Pack): put it behind the row of pack carts and branch it off the pack line.
+- **Somewhere else is fine too**: just tell your AI where. Or sketch a simple route map (which station connects to which, roughly in which direction) and send it to your AI to follow.
+
+A line you can paste to your AI:
+
+```text
+Add a 7th station to my Clawnveyor called ____. Put it on the "recommended spot for station 7" from the README (next to 06; grow the floor to cover it) and connect it from 06 with a single turn. The last station should hold the parcel locker (the harvest). Edit dashboard-template.html, add a line to stations in data/flow.json, run python tools/build.py and show me a screenshot.
+```
+
 ## Not there yet
 
 - No live updates. `flow.py` rebuilds the page, but a page that's already open doesn't refresh itself, and jobs on different machines can't share one board yet. A small local server for that is planned.
-- The layout is fixed: six stations, always in the same spots. Adding a 7th or reordering isn't supported.
+- The six stations stay in fixed spots and can't be reordered. A 7th station means asking your AI to edit the scene (see "Adding a 7th station"); there's no one-click way yet.
 - The ✨ AI buttons in the wardrobe only work when the page is opened as a Claude artifact. Everything else works in any browser.
 
 ## Contact
