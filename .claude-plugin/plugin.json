@@ -1,0 +1,13 @@
+{
+  "name": "clawnveyor",
+  "description": "Teaches your AI to report progress to a Clawnveyor board (your workflow as a little 3D warehouse) with tools/flow.py: when to report and which command to run.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Miaomiao",
+    "url": "https://github.com/Miaomiaomeowmeow"
+  },
+  "homepage": "https://miaomiaomeowmeow.github.io/clawnveyor/",
+  "repository": "https://github.com/Miaomiaomeowmeow/clawnveyor",
+  "license": "CC-BY-NC-SA-4.0",
+  "keywords": ["dashboard", "workflow", "progress", "three.js", "agents"]
+}

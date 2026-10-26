@@ -32,6 +32,23 @@ Machine workflows fit the same six stations:
 |---|---|
 | ![CI/CD template: repos as trucks, test runners as lanes, release carts per environment](docs/screenshots/ci-cd.png) | ![Data pipeline template: sources, validation lanes, warehouse, topic carts, models, consumers](docs/screenshots/data-pipeline.png) |
 
+## How I use it
+
+I built Clawnveyor for my own setup. I collect design and coding inspiration from Xiaohongshu (RedNote), Discord, Bilibili and GitHub, and a few AI chats share the work: some bring new items in, a few sort them and write each one up as a note, and when enough notes on one topic pile up, another chat turns them into a reusable skill for my projects.
+
+Once several chats were working at the same time, I couldn't tell who was doing what, where things were piling up, or which topic was ready to become a skill. So I drew the whole thing as a parcel warehouse:
+
+| My step | Station on the board |
+|---|---|
+| AI chats bring in new items, one source each | 01 Pickup: one truck per source |
+| Sorting chats read each item and decide where it goes | 02 Sort: three sorting lanes, plus a return gate for items they can't use |
+| Notes go into my library | 03 Store |
+| Notes pile up by topic until there are enough | 04 Pack: one cart per topic, lights up when full |
+| A full topic becomes a skill | 05 Process |
+| Skills go to the projects that use them | 06 Deliver |
+
+That's the `collect-skill` template; the sample data in it is made up. In my own copy the numbers come straight from the chats' shared work folders; in this open version your AI or your scripts report them with `flow.py`.
+
 ## Run it
 
 You need Python 3 and a browser (the page loads three.js from a CDN, so it needs internet).
@@ -63,6 +80,19 @@ python tools/build.py --stress
 fills every row past its limit to check the MORE stands (`out/stress.html`).
 
 **Turn stations on / off**: in the page, Console → Stations, tap and "Save & reload" (saved in this browser). To make it stick for everyone, set `"on": false` for that station in `data/flow.json`. 06 is the finish line and always stays on.
+
+## Let your AI keep the board up to date
+
+**Claude Code**: this repo is also a plugin marketplace. Two lines install a small skill that tells your AI when to report and which `flow.py` command to run:
+
+```
+/plugin marketplace add Miaomiaomeowmeow/clawnveyor
+/plugin install clawnveyor@clawnveyor
+```
+
+**Codex, Cursor, Gemini and others**: paste the block in [AI-RULES.md](AI-RULES.md) into your `AGENTS.md` / `CLAUDE.md` / `GEMINI.md`.
+
+**First-time setup**: tell your AI "Set up Clawnveyor following AI-SETUP.md". It checks your computer, then asks one question at a time: which template, how your steps map onto the six stations, what your sources and workers are called.
 
 ## Let your scripts report numbers
 

@@ -1,0 +1,18 @@
+{
+  "name": "clawnveyor",
+  "owner": {
+    "name": "Miaomiao",
+    "url": "https://github.com/Miaomiaomeowmeow"
+  },
+  "metadata": {
+    "description": "Clawnveyor: your workflow as a little 3D warehouse, plus a small skill that keeps it up to date",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "clawnveyor",
+      "description": "The clawnveyor-report skill: your AI reports progress to the Clawnveyor board with tools/flow.py",
+      "source": "./"
+    }
+  ]
+}
